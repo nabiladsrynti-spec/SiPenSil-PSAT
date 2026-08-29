@@ -430,11 +430,17 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
-                            <input type="text" required name="jenis_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sayuran Daun">
+                            <select name="jenis_komoditas" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                <option value="Sayuran Daun (Sawi, Bayam)">Sayuran Daun (Sawi, Bayam)</option>
+                                <option value="Sayuran Buah (Cabai/Tomat/Terong)">Sayuran Buah (Cabai/Tomat/Terong)</option>
+                                <option value="Bawang (Putih/Merah)">Bawang (Putih/Merah)</option>
+                                <option value="Buah-buahan">Buah-buahan</option>
+                                <option value="Rempah">Rempah</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
-                            <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sawi / Tomat">
+                            <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sawi Hijau / Cabai Rawit">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Asal Komoditas (Lokasi)</label>
@@ -631,7 +637,7 @@
                 { waktu: '2026-06-11 10:15', petugas: 'Maria L.', lokasi: 'Pasar Mardika', kecamatan: 'Sirimau', jenis: 'Beras', dagang: 'Beras Bulog Ramos', produsen: 'Bulog Ambon', izin: 'PIRT-12345', netto: 'Ada', tgl_produksi: 'Ada', tgl_kadaluwarsa: 'Ada', catatan: 'Lengkap' }
             ],
             pestisida: JSON.parse(localStorage.getItem('sipensil_pestisida')) || [
-                { waktu: '2026-06-12 11:00', petugas: 'Ritha K.', jenis_komoditas: 'Sayur Daun', nama_komoditas: 'Sawi Hijau', asal: 'Waiheru', kecamatan: 'Baguala', hasil_rapid: 'Negatif', status: 'Aman', catatan: 'Bebas pestisida' }
+                { waktu: '2026-06-12 11:00', petugas: 'Ritha K.', jenis_komoditas: 'Sayur Daun (Sawi, Bayam)', nama_komoditas: 'Sawi Hijau', asal: 'Waiheru', kecamatan: 'Baguala', hasil_rapid: 'Negatif', status: 'Aman', catatan: 'Bebas pestisida' }
             ],
             formalin: JSON.parse(localStorage.getItem('sipensil_formalin')) || [
                 { waktu: '2026-06-12 13:45', petugas: 'Barlin M.', jenis_psah: 'Ikan', nama_psah: 'Ikan Cakalang', asal: 'Pasar Mardika', kecamatan: 'Sirimau', hasil_formalin: 'Negatif', status: 'Aman', catatan: 'Segar dan layak konsumsi' }
@@ -993,11 +999,6 @@
             if (elMs) elMs.innerText = msCount;
             if (elTms) elTms.innerText = tmsCount;
             if (elFokus) elFokus.innerText = `Kec. ${topKecamatan || 'Sirimau'}`;
-
-            if(barChartInstance) {
-                barChartInstance.data.datasets[0].data = [totalGudang, totalLabel, totalPestisida, totalFormalin];
-                barChartInstance.update();
-            }
 
             renderDashboardRecent();
         }
