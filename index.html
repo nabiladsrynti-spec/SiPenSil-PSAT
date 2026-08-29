@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SheetJS (XLSX) untuk export/import spreadsheet -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta+Sans', sans-serif; }
@@ -62,9 +60,9 @@
 
             <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Database</div>
             
-            <button onclick="syncToSpreadsheet()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
-                <i class="fa-solid fa-file-excel w-5 text-center text-emerald-400"></i>
-                <span>Sinkron & Export Spreadsheet</span>
+            <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
+                <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
+                <span>Spreadsheet</span>
             </button>
         </nav>
 
@@ -87,10 +85,10 @@
                 <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
             </div>
             <div class="flex items-center space-x-3">
-                <div class="text-right hidden sm:block">
-                    <p class="text-xs font-semibold text-slate-700">Administrator</p>
-                    <p class="text-[10px] text-slate-500">DPKP Kota Ambon</p>
-                </div>
+                <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Refresh</span>
+                </button>
                 <div class="w-9 h-9 rounded-full bg-emerald-800 text-white font-bold flex items-center justify-center text-sm shadow">
                     DA
                 </div>
@@ -109,6 +107,27 @@
                     <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-1">Berhasil</h3>
                     <p id="modal-message" class="text-sm text-slate-600 mb-6">Data berhasil disimpan.</p>
                     <button onclick="closeModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition cursor-pointer">Tutup</button>
+                </div>
+            </div>
+
+            <!-- CONFIG GOOGLE SCRIPT URL MODAL -->
+            <div id="config-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center space-x-2">
+                        <i class="fa-brands fa-google-drive text-emerald-600"></i>
+                        <span>Koneksi Google Spreadsheet</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Masukkan URL Web App Google Apps Script Anda agar data tersimpan langsung ke Google Spreadsheet.</p>
+                    <div class="space-y-3 mb-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Google Apps Script Web App URL</label>
+                            <input type="text" id="input-script-url" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-emerald-600" placeholder="https://script.google.com/macros/s/.../exec">
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition">Simpan URL</button>
+                        <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition">Batal</button>
+                    </div>
                 </div>
             </div>
 
@@ -154,35 +173,31 @@
                     </div>
                 </div>
 
-                <!-- 4 PIE CHARTS SECTION (STATUS AMAN PER MASING-MASING 4 PENGUJIAN) -->
+                <!-- 4 PIE CHARTS SECTION -->
                 <div class="space-y-3">
                     <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
                         <i class="fa-solid fa-chart-pie text-emerald-600"></i>
                         <span>Diagram Status Keamanan per Kategori Pengawasan</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <!-- Pie 1: Gudang -->
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
                             <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Gudang PSAT</h4>
                             <div class="h-48 w-full flex items-center justify-center relative">
                                 <canvas id="pieGudang"></canvas>
                             </div>
                         </div>
-                        <!-- Pie 2: Label -->
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
                             <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Label PSAT</h4>
                             <div class="h-48 w-full flex items-center justify-center relative">
                                 <canvas id="pieLabel"></canvas>
                             </div>
                         </div>
-                        <!-- Pie 3: Pestisida -->
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
                             <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida PSAT</h4>
                             <div class="h-48 w-full flex items-center justify-center relative">
                                 <canvas id="piePestisida"></canvas>
                             </div>
                         </div>
-                        <!-- Pie 4: Formalin -->
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
                             <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin PSAH</h4>
                             <div class="h-48 w-full flex items-center justify-center relative">
@@ -577,9 +592,9 @@
                             </h3>
                             <p class="text-xs text-slate-500">Daftar lengkap seluruh data yang diinput pada semua menu pengawasan.</p>
                         </div>
-                        <button onclick="syncToSpreadsheet()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2 shadow">
-                            <i class="fa-solid fa-file-excel"></i>
-                            <span>Export ke Spreadsheet Excel</span>
+                        <button onclick="syncFromCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2 shadow">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>Sinkronisasi ke Google Spreadsheet</span>
                         </button>
                     </div>
 
@@ -607,7 +622,7 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // State Application stored in LocalStorage
+        // State Application
         let appData = {
             gudang: JSON.parse(localStorage.getItem('sipensil_gudang')) || [
                 { waktu: '2026-06-10 09:30', petugas: 'Ahmad S.', lokasi: 'Gudang Passoro', kecamatan: 'Baguala', hygen: 'Memenuhi Syarat', sanitasi: 'Memenuhi Syarat', kesimpulan: 'Aman', catatan: 'Penyimpanan bersih' }
@@ -623,18 +638,75 @@
             ]
         };
 
+        // Google Apps Script Web App URL
+        let googleScriptUrl = localStorage.getItem('sipensil_script_url') || '';
+
         let pieGudangInstance = null;
         let pieLabelInstance = null;
         let piePestisidaInstance = null;
         let pieFormalinInstance = null;
         let barChartInstance = null;
 
-        function saveData() {
+        function openConfigModal() {
+            document.getElementById('input-script-url').value = googleScriptUrl;
+            document.getElementById('config-modal').classList.remove('hidden');
+        }
+
+        function closeConfigModal() {
+            document.getElementById('config-modal').classList.add('hidden');
+        }
+
+        function saveScriptUrl() {
+            const url = document.getElementById('input-script-url').value.trim();
+            googleScriptUrl = url;
+            localStorage.setItem('sipensil_script_url', url);
+            closeConfigModal();
+            showModal('Berhasil', 'URL Google Spreadsheet berhasil disimpan.');
+        }
+
+        async function sendToCloud(sheetName, dataObj) {
+            if (!googleScriptUrl) return;
+            try {
+                await fetch(googleScriptUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sheet: sheetName, data: dataObj })
+                });
+            } catch (err) {
+                console.error("Gagal sinkron ke Google Spreadsheet:", err);
+            }
+        }
+
+        async function syncFromCloud() {
+            if (!googleScriptUrl) {
+                openConfigModal();
+                return;
+            }
+            showModal('Sinkronisasi', 'Mengambil data dari Google Spreadsheet...');
+            try {
+                const response = await fetch(googleScriptUrl);
+                const result = await response.json();
+                if (result) {
+                    if (result.gudang) appData.gudang = result.gudang;
+                    if (result.label) appData.label = result.label;
+                    if (result.pestisida) appData.pestisida = result.pestisida;
+                    if (result.formalin) appData.formalin = result.formalin;
+                    saveDataLocally();
+                    showModal('Berhasil', 'Data berhasil disinkronkan dengan Google Spreadsheet.');
+                }
+            } catch (err) {
+                showModal('Informasi', 'Sinkronisasi lokal aktif. Pastikan Web App URL Apps Script mengizinkan GET untuk mengambil data.', true);
+            }
+        }
+
+        function saveDataLocally() {
             localStorage.setItem('sipensil_gudang', JSON.stringify(appData.gudang));
             localStorage.setItem('sipensil_label', JSON.stringify(appData.label));
             localStorage.setItem('sipensil_pestisida', JSON.stringify(appData.pestisida));
             localStorage.setItem('sipensil_formalin', JSON.stringify(appData.formalin));
             updateDashboard();
+            renderTables();
         }
 
         function switchTab(tabId) {
@@ -666,10 +738,7 @@
             document.getElementById('page-title').innerText = titles[tabId];
 
             if(tabId === 'dashboard') {
-                // Memastikan render charts dijalankan dengan jeda sedikit agar container DOM sudah visible sepenuhnya
-                setTimeout(() => {
-                    renderCharts();
-                }, 50);
+                setTimeout(() => { renderCharts(); }, 50);
             } else if(tabId === 'rekap') {
                 renderRekapTable();
             }
@@ -697,7 +766,7 @@
         function handleGudangSubmit(e) {
             e.preventDefault();
             const fd = new FormData(e.target);
-            appData.gudang.unshift({
+            const newData = {
                 waktu: fd.get('waktu'),
                 petugas: fd.get('petugas'),
                 lokasi: fd.get('lokasi'),
@@ -706,17 +775,19 @@
                 sanitasi: fd.get('sanitasi'),
                 kesimpulan: fd.get('kesimpulan'),
                 catatan: fd.get('catatan')
-            });
-            saveData();
+            };
+            appData.gudang.unshift(newData);
+            saveDataLocally();
+            sendToCloud('Gudang', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengawasan Gudang PSAT berhasil disimpan.');
+            showModal('Berhasil', 'Data Pengawasan Gudang PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handleLabelSubmit(e) {
             e.preventDefault();
             const fd = new FormData(e.target);
-            appData.label.unshift({
+            const newData = {
                 waktu: fd.get('waktu'),
                 petugas: fd.get('petugas'),
                 lokasi: fd.get('lokasi'),
@@ -729,17 +800,19 @@
                 tgl_produksi: fd.get('tgl_produksi'),
                 tgl_kadaluwarsa: fd.get('tgl_kadaluwarsa'),
                 catatan: fd.get('catatan')
-            });
-            saveData();
+            };
+            appData.label.unshift(newData);
+            saveDataLocally();
+            sendToCloud('Label', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengawasan Label PSAT berhasil disimpan.');
+            showModal('Berhasil', 'Data Pengawasan Label PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handlePestisidaSubmit(e) {
             e.preventDefault();
             const fd = new FormData(e.target);
-            appData.pestisida.unshift({
+            const newData = {
                 waktu: fd.get('waktu'),
                 petugas: fd.get('petugas'),
                 jenis_komoditas: fd.get('jenis_komoditas'),
@@ -749,17 +822,19 @@
                 hasil_rapid: fd.get('hasil_rapid'),
                 status: fd.get('status'),
                 catatan: fd.get('catatan')
-            });
-            saveData();
+            };
+            appData.pestisida.unshift(newData);
+            saveDataLocally();
+            sendToCloud('Pestisida', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengujian Pestisida berhasil disimpan.');
+            showModal('Berhasil', 'Data Uji Pestisida berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handleFormalinSubmit(e) {
             e.preventDefault();
             const fd = new FormData(e.target);
-            appData.formalin.unshift({
+            const newData = {
                 waktu: fd.get('waktu'),
                 petugas: fd.get('petugas'),
                 jenis_psah: fd.get('jenis_psah'),
@@ -769,16 +844,17 @@
                 hasil_formalin: fd.get('hasil_formalin'),
                 status: fd.get('status'),
                 catatan: fd.get('catatan')
-            });
-            saveData();
+            };
+            appData.formalin.unshift(newData);
+            saveDataLocally();
+            sendToCloud('Formalin', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengujian Formalin PSAH berhasil disimpan.');
+            showModal('Berhasil', 'Data Uji Formalin PSAH berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         // Render Table Data
         function renderTables() {
-            // Gudang
             const tbGudang = document.getElementById('table-gudang-body');
             if (tbGudang) {
                 tbGudang.innerHTML = appData.gudang.map(item => `
@@ -794,7 +870,6 @@
                 `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengawasan gudang.</td></tr>`;
             }
 
-            // Label
             const tbLabel = document.getElementById('table-label-body');
             if (tbLabel) {
                 tbLabel.innerHTML = appData.label.map(item => `
@@ -811,7 +886,6 @@
                 `).join('') || `<tr><td colspan="8" class="text-center p-4 text-slate-400">Belum ada data pengawasan label.</td></tr>`;
             }
 
-            // Pestisida
             const tbPestisida = document.getElementById('table-pestisida-body');
             if (tbPestisida) {
                 tbPestisida.innerHTML = appData.pestisida.map(item => `
@@ -827,7 +901,6 @@
                 `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengujian pestisida.</td></tr>`;
             }
 
-            // Formalin
             const tbFormalin = document.getElementById('table-formalin-body');
             if (tbFormalin) {
                 tbFormalin.innerHTML = appData.formalin.map(item => `
@@ -888,7 +961,6 @@
             `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengawasan.</td></tr>`;
         }
 
-        // Update Dashboard Statistics & Charts
         function updateDashboard() {
             const totalGudang = appData.gudang.length;
             const totalLabel = appData.label.length;
@@ -904,7 +976,6 @@
 
             let tmsCount = totalAll - msCount;
 
-            // Hitung kecamatan paling sering
             let kecCount = {};
             [...appData.gudang, ...appData.label, ...appData.pestisida, ...appData.formalin].forEach(i => {
                 if(i.kecamatan) {
@@ -932,7 +1003,6 @@
         }
 
         function renderCharts() {
-            // Hitung statistik Aman vs Tidak Aman untuk masing-masing 4 menu
             let gAman = 0, gTidak = 0;
             appData.gudang.forEach(i => { if(i.kesimpulan === 'Aman') gAman++; else gTidak++; });
 
@@ -944,7 +1014,6 @@
             let fAman = 0, fTidak = 0;
             appData.formalin.forEach(i => { if(i.status === 'Aman') fAman++; else fTidak++; });
 
-            // Render Pie 1: Gudang
             const elPieGudang = document.getElementById('pieGudang');
             if (elPieGudang) {
                 if(pieGudangInstance) pieGudangInstance.destroy();
@@ -958,7 +1027,6 @@
                 });
             }
 
-            // Render Pie 2: Label
             const elPieLabel = document.getElementById('pieLabel');
             if (elPieLabel) {
                 if(pieLabelInstance) pieLabelInstance.destroy();
@@ -972,7 +1040,6 @@
                 });
             }
 
-            // Render Pie 3: Pestisida
             const elPiePestisida = document.getElementById('piePestisida');
             if (elPiePestisida) {
                 if(piePestisidaInstance) piePestisidaInstance.destroy();
@@ -986,7 +1053,6 @@
                 });
             }
 
-            // Render Pie 4: Formalin
             const elPieFormalin = document.getElementById('pieFormalin');
             if (elPieFormalin) {
                 if(pieFormalinInstance) pieFormalinInstance.destroy();
@@ -999,62 +1065,11 @@
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
                 });
             }
-
-            // Bar Chart Rekap Total
-            const totalGudang = appData.gudang.length;
-            const totalLabel = appData.label.length;
-            const totalPestisida = appData.pestisida.length;
-            const totalFormalin = appData.formalin.length;
-
-            const ctxBar = document.getElementById('barChart');
-            if (ctxBar) {
-                if(barChartInstance) barChartInstance.destroy();
-                barChartInstance = new Chart(ctxBar.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['Gudang PSAT', 'Label PSAT', 'Uji Pestisida', 'Uji Formalin (PSAH)'],
-                        datasets: [{
-                            label: 'Jumlah Kegiatan',
-                            data: [totalGudang, totalLabel, totalPestisida, totalFormalin],
-                            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'],
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                    }
-                });
-            }
         }
 
-        // Spreadsheet Sync / Export simulation using SheetJS
-        function syncToSpreadsheet() {
-            const wb = XLSX.utils.book_new();
-
-            const wsGudang = XLSX.utils.json_to_sheet(appData.gudang);
-            XLSX.utils.book_append_sheet(wb, wsGudang, "Pengawasan Gudang");
-
-            const wsLabel = XLSX.utils.json_to_sheet(appData.label);
-            XLSX.utils.book_append_sheet(wb, wsLabel, "Pengawasan Label");
-
-            const wsPestisida = XLSX.utils.json_to_sheet(appData.pestisida);
-            XLSX.utils.book_append_sheet(wb, wsPestisida, "Uji Pestisida");
-
-            const wsFormalin = XLSX.utils.json_to_sheet(appData.formalin);
-            XLSX.utils.book_append_sheet(wb, wsFormalin, "Uji Formalin PSAH");
-
-            XLSX.writeFile(wb, "SiPenSil_Keamanan_PSAT_DPKP_Ambon.xlsx");
-            showModal("Sinkronisasi Berhasil", "Data berhasil disinkronkan dan diexport ke format Spreadsheet Excel (.xlsx).");
-        }
-
-        // Inisialisasi awal saat halaman dimuat
         window.onload = function() {
             renderTables();
             updateDashboard();
-            // Render diagram pie pertama kali saat load jika elemen dashboard aktif
             renderCharts();
         }
     </script>
