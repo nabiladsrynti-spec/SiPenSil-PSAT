@@ -17,626 +17,674 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
 
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20 transition-all duration-300">
-        <div class="p-5 border-b border-emerald-800 flex items-center justify-between">
-            <div class="flex items-center space-x-3 overflow-hidden">
-                <div class="bg-emerald-700 p-2.5 rounded-xl text-amber-400 font-bold text-xl shadow-inner shrink-0">
+    <!-- LOGIN SCREEN CONTAINER -->
+    <div id="login-container" class="fixed inset-0 bg-emerald-950 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-emerald-100 relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-100 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-emerald-800 text-amber-400 font-bold text-2xl rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
                     <i class="fa-solid fa-seedling"></i>
                 </div>
-                <div class="sidebar-text">
-                    <h1 class="font-bold text-base tracking-wide leading-tight truncate">SiPenSil</h1>
-                    <p class="text-[11px] text-emerald-300 truncate">Pengawasan Keamanan PSAT</p>
+                <h1 class="text-2xl font-bold text-slate-800 tracking-tight">SiPenSil</h1>
+                <p class="text-xs text-slate-500 mt-1">Pengawasan Keamanan PSAT - DPKP Kota Ambon</p>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="login-username" required class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-emerald-600" placeholder="Masukkan username">
+                    </div>
                 </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="login-password" required class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-emerald-600" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-login-submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl text-sm transition shadow-lg cursor-pointer flex items-center justify-center space-x-2">
+                    <span>Masuk ke Dashboard</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+
+                <p id="login-error" class="text-xs text-rose-600 text-center font-medium mt-2 min-h-[16px]"></p>
+            </form>
+
+            <div class="mt-8 pt-4 border-t border-slate-100 text-center">
+                <p class="text-[11px] text-slate-400">Default Akun: Username: <b class="text-slate-600">admin</b> | Password: <b class="text-slate-600">123456</b></p>
             </div>
         </div>
+    </div>
 
-        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md">
-                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                <span class="sidebar-text">Dashboard</span>
-            </button>
-            
-            <div class="pt-2 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4 sidebar-text">Menu Pengawasan</div>
-            
-            <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
-                <i class="fa-solid fa-warehouse w-5 text-center"></i>
-                <span class="sidebar-text">Gudang PSAT</span>
-            </button>
-            <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
-                <i class="fa-solid fa-tags w-5 text-center"></i>
-                <span class="sidebar-text">Label PSAT</span>
-            </button>
-            <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
-                <i class="fa-solid fa-flask w-5 text-center"></i>
-                <span class="sidebar-text">Uji Pestisida</span>
-            </button>
-            <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
-                <i class="fa-solid fa-shield-halved w-5 text-center"></i>
-                <span class="sidebar-text">Uji Formalin (PSAH)</span>
-            </button>
-            <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
-                <i class="fa-solid fa-table-list w-5 text-center"></i>
-                <span class="sidebar-text">Data Pengawasan</span>
-            </button>
+    <!-- MAIN APP CONTAINER (Disembunyikan Sebelum Login) -->
+    <div id="app-container" class="hidden flex-1 flex h-screen overflow-hidden w-full">
 
-            <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4 sidebar-text">Database</div>
-            
-            <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
-                <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
-                <span class="sidebar-text">Spreadsheet</span>
-            </button>
-        </nav>
-
-        <div class="p-4 border-t border-emerald-800/80 bg-emerald-950/40 text-xs text-emerald-300/80 flex items-center justify-between">
-            <div class="sidebar-text">
-                <p class="font-semibold text-emerald-200">DPKP Kota Ambon</p>
-                <p class="text-[10px]">Pemerintah Kota Ambon</p>
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20">
+            <div class="p-5 border-b border-emerald-800 flex items-center space-x-3">
+                <div class="bg-emerald-700 p-2.5 rounded-xl text-amber-400 font-bold text-xl shadow-inner">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base tracking-wide leading-tight">SiPenSil</h1>
+                    <p class="text-[11px] text-emerald-300">Pengawasan Keamanan PSAT</p>
+                </div>
             </div>
-            <span class="inline-block w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" title="Sistem Aktif"></span>
-        </div>
-    </aside>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        
-        <!-- HEADER -->
-        <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 md:px-8 shadow-xs z-10">
-            <div class="flex items-center space-x-3">
-                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-emerald-700 focus:outline-none p-2 rounded-lg hover:bg-slate-100 transition cursor-pointer" title="Tutup/Buka Menu">
-                    <i class="fa-solid fa-bars text-lg"></i>
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <span>Dashboard</span>
                 </button>
-                <h2 id="page-title" class="text-lg md:text-xl font-bold text-slate-800 truncate">Dashboard Utama</h2>
-                <span class="hidden sm:inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
-            </div>
-            <div class="flex items-center space-x-3">
-                <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
-                    <i class="fa-solid fa-rotate"></i>
-                    <span class="hidden sm:inline">Refresh</span>
+                
+                <div class="pt-2 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Menu Pengawasan</div>
+                
+                <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                    <i class="fa-solid fa-warehouse w-5 text-center"></i>
+                    <span>Gudang PSAT</span>
                 </button>
-                <div class="w-9 h-9 rounded-full bg-emerald-800 text-white font-bold flex items-center justify-center text-sm shadow">
-                    DA
+                <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                    <i class="fa-solid fa-tags w-5 text-center"></i>
+                    <span>Label PSAT</span>
+                </button>
+                <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                    <i class="fa-solid fa-flask w-5 text-center"></i>
+                    <span>Uji Pestisida</span>
+                </button>
+                <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                    <i class="fa-solid fa-shield-halved w-5 text-center"></i>
+                    <span>Uji Formalin (PSAH)</span>
+                </button>
+                <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                    <i class="fa-solid fa-table-list w-5 text-center"></i>
+                    <span>Data Pengawasan</span>
+                </button>
+
+                <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Database</div>
+                
+                <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
+                    <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
+                    <span>Spreadsheet</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-emerald-800/80 bg-emerald-950/40 text-xs text-emerald-300/80 flex items-center justify-between">
+                <div>
+                    <p class="font-semibold text-emerald-200">DPKP Kota Ambon</p>
+                    <p>Pemerintah Kota Ambon</p>
                 </div>
+                <span class="inline-block w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" title="Sistem Aktif"></span>
             </div>
-        </header>
+        </aside>
 
-        <!-- CONTENT VIEWPORT -->
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50 relative">
-
-            <!-- NOTIFICATION MODAL CUSTOM -->
-            <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-                <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
-                    <div id="modal-icon" class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-1">Berhasil</h3>
-                    <p id="modal-message" class="text-sm text-slate-600 mb-6">Data berhasil disimpan.</p>
-                    <button onclick="closeModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition cursor-pointer">Tutup</button>
+        <!-- MAIN CONTENT CONTAINER -->
+        <div class="flex-1 flex flex-col h-screen overflow-hidden">
+            
+            <!-- HEADER -->
+            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-xs z-10">
+                <div class="flex items-center space-x-4">
+                    <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Utama</h2>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
                 </div>
-            </div>
-
-            <!-- CONFIG GOOGLE SCRIPT URL MODAL -->
-            <div id="config-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-                <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center space-x-2">
-                        <i class="fa-brands fa-google-drive text-emerald-600"></i>
-                        <span>Koneksi Google Spreadsheet</span>
-                    </h3>
-                    <p class="text-xs text-slate-500 mb-4">Masukkan URL Web App Google Apps Script Anda agar data tersimpan langsung ke Google Spreadsheet.</p>
-                    <div class="space-y-3 mb-6">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Google Apps Script Web App URL</label>
-                            <input type="text" id="input-script-url" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-emerald-600" placeholder="https://script.google.com/macros/s/.../exec">
-                        </div>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition">Simpan URL</button>
-                        <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition">Batal</button>
-                    </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Refresh</span>
+                    </button>
+                    <button onclick="handleLogout()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer" title="Keluar Akun">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
                 </div>
-            </div>
+            </header>
 
-            <!-- TAB 1: DASHBOARD -->
-            <section id="tab-dashboard" class="space-y-6">
-                <!-- Top Summary Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-                            <i class="fa-solid fa-clipboard-check"></i>
+            <!-- CONTENT VIEWPORT -->
+            <main class="flex-1 overflow-y-auto p-8 bg-slate-50 relative">
+
+                <!-- NOTIFICATION MODAL CUSTOM -->
+                <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
+                    <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
+                        <div id="modal-icon" class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                            <i class="fa-solid fa-check"></i>
                         </div>
-                        <div>
-                            <p class="text-xs text-slate-500 font-medium">Total Pengawasan</p>
-                            <h3 id="stat-total" class="text-2xl font-bold text-slate-800">0</h3>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-                            <i class="fa-solid fa-shield-check"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 font-medium">Total Memenuhi Syarat / Aman</p>
-                            <h3 id="stat-ms" class="text-2xl font-bold text-emerald-600">0</h3>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 font-medium">Tidak Memenuhi Syarat</p>
-                            <h3 id="stat-tms" class="text-2xl font-bold text-rose-600">0</h3>
-                        </div>
-                    </div>
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold shrink-0">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 font-medium">Fokus Wilayah Teratas</p>
-                            <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">Sirimau</h3>
-                        </div>
+                        <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-1">Berhasil</h3>
+                        <p id="modal-message" class="text-sm text-slate-600 mb-6">Data berhasil disimpan.</p>
+                        <button onclick="closeModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition cursor-pointer">Tutup</button>
                     </div>
                 </div>
 
-                <!-- 4 PIE CHARTS SECTION -->
-                <div class="space-y-3">
-                    <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
-                        <i class="fa-solid fa-chart-pie text-emerald-600"></i>
-                        <span>Diagram Status Keamanan per Kategori Pengawasan</span>
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Gudang PSAT</h4>
-                            <div class="h-48 w-full flex items-center justify-center relative">
-                                <canvas id="pieGudang"></canvas>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Label PSAT</h4>
-                            <div class="h-48 w-full flex items-center justify-center relative">
-                                <canvas id="pieLabel"></canvas>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida PSAT</h4>
-                            <div class="h-48 w-full flex items-center justify-center relative">
-                                <canvas id="piePestisida"></canvas>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin PSAH</h4>
-                            <div class="h-48 w-full flex items-center justify-center relative">
-                                <canvas id="pieFormalin"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Data Pengawasan Summary Table di Dashboard -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
-                            <i class="fa-solid fa-table-list text-emerald-600"></i>
-                            <span>Data Pengawasan Terbaru (Semua Kategori)</span>
+                <!-- CONFIG GOOGLE SCRIPT URL MODAL -->
+                <div id="config-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
+                    <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center space-x-2">
+                            <i class="fa-brands fa-google-drive text-emerald-600"></i>
+                            <span>Koneksi Google Spreadsheet</span>
                         </h3>
-                        <button onclick="switchTab('rekap')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lihat Selengkapnya &rarr;</button>
+                        <p class="text-xs text-slate-500 mb-4">Masukkan URL Web App Google Apps Script Anda agar data tersimpan langsung ke Google Spreadsheet.</p>
+                        <div class="space-y-3 mb-6">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Google Apps Script Web App URL</label>
+                                <input type="text" id="input-script-url" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-emerald-600" placeholder="https://script.google.com/macros/s/.../exec">
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition">Simpan URL</button>
+                            <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition">Batal</button>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm min-w-[600px]">
+                </div>
+
+                <!-- TAB 1: DASHBOARD -->
+                <section id="tab-dashboard" class="space-y-6">
+                    <!-- Top Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Total Pengawasan</p>
+                                <h3 id="stat-total" class="text-2xl font-bold text-slate-800">0</h3>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Total Memenuhi Syarat / Aman</p>
+                                <h3 id="stat-ms" class="text-2xl font-bold text-emerald-600">0</h3>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Tidak Memenuhi Syarat</p>
+                                <h3 id="stat-tms" class="text-2xl font-bold text-rose-600">0</h3>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Fokus Wilayah Teratas</p>
+                                <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">Sirimau</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 PIE CHARTS SECTION -->
+                    <div class="space-y-3">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                            <span>Diagram Status Keamanan per Kategori Pengawasan</span>
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Gudang PSAT</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative">
+                                    <canvas id="pieGudang"></canvas>
+                                </div>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Label PSAT</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative">
+                                    <canvas id="pieLabel"></canvas>
+                                </div>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida PSAT</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative">
+                                    <canvas id="piePestisida"></canvas>
+                                </div>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin PSAH</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative">
+                                    <canvas id="pieFormalin"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Pengawasan Summary Table di Dashboard -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                                <i class="fa-solid fa-table-list text-emerald-600"></i>
+                                <span>Data Pengawasan Terbaru (Semua Kategori)</span>
+                            </h3>
+                            <button onclick="switchTab('rekap')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lihat Selengkapnya &rarr;</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                        <th class="p-3">Kategori</th>
+                                        <th class="p-3">Waktu</th>
+                                        <th class="p-3">Petugas</th>
+                                        <th class="p-3">Lokasi & Kecamatan</th>
+                                        <th class="p-3">Status / Kesimpulan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboard-recent-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: PENGAWASAN GUDANG PSAT -->
+                <section id="tab-gudang" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-warehouse text-emerald-600"></i>
+                            <span>Formulir Pengawasan Gudang PSAT</span>
+                        </h3>
+                        <form id="form-gudang" onsubmit="handleGudangSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Masukkan nama petugas pemeriksa">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
+                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang Pengawasan</label>
+                                <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Gudang Beras Passo">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
+                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Sirimau">Sirimau</option>
+                                    <option value="Nusaniwe">Nusaniwe</option>
+                                    <option value="Baguala">Baguala</option>
+                                    <option value="Teluk Ambon">Teluk Ambon</option>
+                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Hygen</label>
+                                <select name="hygen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Memenuhi Syarat">Memenuhi Syarat</option>
+                                    <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sanitasi</label>
+                                <select name="sanitasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Memenuhi Syarat">Memenuhi Syarat</option>
+                                    <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Kesimpulan</label>
+                                <select name="kesimpulan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Aman">Aman</option>
+                                    <option value="Tidak Aman">Tidak Aman</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan gudang...">
+                            </div>
+                            <div class="md:col-span-2 flex justify-end">
+                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Gudang</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Table Data Gudang -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Gudang PSAT</h4>
+                        <table class="w-full text-left border-collapse text-sm">
                             <thead>
                                 <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Kategori</th>
                                     <th class="p-3">Waktu</th>
                                     <th class="p-3">Petugas</th>
                                     <th class="p-3">Lokasi & Kecamatan</th>
-                                    <th class="p-3">Status / Kesimpulan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dashboard-recent-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 2: PENGAWASAN GUDANG PSAT -->
-            <section id="tab-gudang" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                        <i class="fa-solid fa-warehouse text-emerald-600"></i>
-                        <span>Formulir Pengawasan Gudang PSAT</span>
-                    </h3>
-                    <form id="form-gudang" onsubmit="handleGudangSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                            <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Masukkan nama petugas pemeriksa">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
-                            <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang Pengawasan</label>
-                            <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Gudang Beras Passo">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                            <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Sirimau">Sirimau</option>
-                                <option value="Nusaniwe">Nusaniwe</option>
-                                <option value="Baguala">Baguala</option>
-                                <option value="Teluk Ambon">Teluk Ambon</option>
-                                <option value="Leitimur Selatan">Leitimur Selatan</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Hygen</label>
-                            <select name="hygen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Memenuhi Syarat">Memenuhi Syarat</option>
-                                <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sanitasi</label>
-                            <select name="sanitasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Memenuhi Syarat">Memenuhi Syarat</option>
-                                <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Kesimpulan</label>
-                            <select name="kesimpulan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Aman">Aman</option>
-                                <option value="Tidak Aman">Tidak Aman</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                            <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan gudang...">
-                        </div>
-                        <div class="md:col-span-2 flex justify-end">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Gudang</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Table Data Gudang -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                    <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Gudang PSAT</h4>
-                    <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                <th class="p-3">Waktu</th>
-                                <th class="p-3">Petugas</th>
-                                <th class="p-3">Lokasi & Kecamatan</th>
-                                <th class="p-3">Hygen</th>
-                                <th class="p-3">Sanitasi</th>
-                                <th class="p-3">Kesimpulan</th>
-                                <th class="p-3">Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-gudang-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- TAB 3: PENGAWASAN LABEL PSAT -->
-            <section id="tab-label" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                        <i class="fa-solid fa-tags text-emerald-600"></i>
-                        <span>Formulir Pengawasan Label PSAT</span>
-                    </h3>
-                    <form id="form-label" onsubmit="handleLabelSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                            <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
-                            <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengawasan</label>
-                            <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                            <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Sirimau">Sirimau</option>
-                                <option value="Nusaniwe">Nusaniwe</option>
-                                <option value="Baguala">Baguala</option>
-                                <option value="Teluk Ambon">Teluk Ambon</option>
-                                <option value="Leitimur Selatan">Leitimur Selatan</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAT</label>
-                            <input type="text" required name="jenis" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Beras / Buah / Sayur">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Dagang</label>
-                            <input type="text" required name="dagang" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama produk">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Produsen / Asal</label>
-                            <input type="text" required name="produsen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Produsen / asal daerah">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">No Izin Registrasi / Edar</label>
-                            <input type="text" required name="izin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nomor izin PSAT">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Netto</label>
-                            <select name="netto" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Ada">Ada</option>
-                                <option value="Tidak">Tidak</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Produksi</label>
-                            <select name="tgl_produksi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Ada">Ada</option>
-                                <option value="Tidak">Tidak</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Kadaluwarsa</label>
-                            <select name="tgl_kadaluwarsa" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Ada">Ada</option>
-                                <option value="Tidak">Tidak</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                            <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan label">
-                        </div>
-                        <div class="md:col-span-3 flex justify-end">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Label</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Table Data Label -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                    <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Label PSAT</h4>
-                    <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                <th class="p-3">Waktu</th>
-                                <th class="p-3">Petugas</th>
-                                <th class="p-3">Lokasi & Kecamatan</th>
-                                <th class="p-3">Komoditas / Dagang</th>
-                                <th class="p-3">Produsen</th>
-                                <th class="p-3">No. Izin</th>
-                                <th class="p-3">Netto/Prod/Exp</th>
-                                <th class="p-3">Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-label-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- TAB 4: PENGUJIAN PESTISIDA -->
-            <section id="tab-pestisida" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                        <i class="fa-solid fa-flask text-emerald-600"></i>
-                        <span>Formulir Pengujian Pestisida PSAT</span>
-                    </h3>
-                    <form id="form-pestisida" onsubmit="handlePestisidaSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                            <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama penguji">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
-                            <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
-                            <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika / Laboratorium">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                            <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Sirimau">Sirimau</option>
-                                <option value="Nusaniwe">Nusaniwe</option>
-                                <option value="Baguala">Baguala</option>
-                                <option value="Teluk Ambon">Teluk Ambon</option>
-                                <option value="Leitimur Selatan">Leitimur Selatan</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
-                            <select name="jenis_komoditas" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Sayuran Daun (Sawi, Bayam)">Sayuran Daun (Sawi, Bayam)</option>
-                                <option value="Sayuran Buah (Cabai/Tomat/Terong)">Sayuran Buah (Cabai/Tomat/Terong)</option>
-                                <option value="Bawang (Putih/Merah)">Bawang (Putih/Merah)</option>
-                                <option value="Buah-buahan">Buah-buahan</option>
-                                <option value="Rempah">Rempah</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
-                            <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sawi Hijau / Cabai Rawit">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Asal Komoditas</label>
-                            <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Petani Waiheru / Supplier Luar Kota">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Rapid Test</label>
-                            <select name="hasil_rapid" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Negatif">Negatif</option>
-                                <option value="Low">Low</option>
-                                <option value="High">High</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
-                            <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Aman">Aman</option>
-                                <option value="Tidak Aman">Tidak Aman</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                            <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji pestisida">
-                        </div>
-                        <div class="md:col-span-2 flex justify-end">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Pestisida</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Table Data Pestisida -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                    <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Pestisida PSAT</h4>
-                    <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                <th class="p-3">Waktu</th>
-                                <th class="p-3">Petugas</th>
-                                <th class="p-3">Lokasi Uji & Kec.</th>
-                                <th class="p-3">Komoditas & Asal</th>
-                                <th class="p-3">Rapid Test</th>
-                                <th class="p-3">Status</th>
-                                <th class="p-3">Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-pestisida-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- TAB 5: PENGUJIAN FORMALIN (PSAH) -->
-            <section id="tab-formalin" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-                        <span>Formulir Pengujian Formalin PSAH</span>
-                    </h3>
-                    <form id="form-formalin" onsubmit="handleFormalinSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                            <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
-                            <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
-                            <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Tradisional / Lab">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                            <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Sirimau">Sirimau</option>
-                                <option value="Nusaniwe">Nusaniwe</option>
-                                <option value="Baguala">Baguala</option>
-                                <option value="Teluk Ambon">Teluk Ambon</option>
-                                <option value="Leitimur Selatan">Leitimur Selatan</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAH</label>
-                            <select name="jenis_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Ikan">Ikan</option>
-                                <option value="Ayam">Ayam</option>
-                                <option value="Daging Sapi">Daging Sapi</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama PSAH</label>
-                            <input type="text" required name="nama_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Ikan Cakalang / Ayam Potong">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Asal PSAH</label>
-                            <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pendaratan Ikan / Supplier">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Formalin</label>
-                            <select name="hasil_formalin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Negatif">Negatif</option>
-                                <option value="Positif">Positif</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
-                            <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                <option value="Aman">Aman</option>
-                                <option value="Tidak Aman">Tidak Aman</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                            <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji formalin">
-                        </div>
-                        <div class="md:col-span-2 flex justify-end">
-                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Formalin</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Table Data Formalin -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                    <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Formalin PSAH</h4>
-                    <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                <th class="p-3">Waktu</th>
-                                <th class="p-3">Petugas</th>
-                                <th class="p-3">Lokasi Uji & Kec.</th>
-                                <th class="p-3">Jenis/Nama PSAH & Asal</th>
-                                <th class="p-3">Hasil Formalin</th>
-                                <th class="p-3">Status</th>
-                                <th class="p-3">Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-formalin-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- TAB 6: DATA PENGAWASAN (REKAP KESELURUHAN) -->
-            <section id="tab-rekap" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                                <i class="fa-solid fa-table-list text-emerald-600"></i>
-                                <span>Rekapitulasi Seluruh Data Pengawasan & Pengujian</span>
-                            </h3>
-                            <p class="text-xs text-slate-500">Daftar lengkap seluruh data yang diinput pada semua menu pengawasan.</p>
-                        </div>
-                        <button onclick="syncFromCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2 shadow">
-                            <i class="fa-solid fa-rotate"></i>
-                            <span>Sinkronisasi ke Google Spreadsheet</span>
-                        </button>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Kategori</th>
-                                    <th class="p-3">Waktu</th>
-                                    <th class="p-3">Petugas</th>
-                                    <th class="p-3">Lokasi Uji / Komoditas</th>
-                                    <th class="p-3">Kecamatan</th>
-                                    <th class="p-3">Status / Kesimpulan</th>
+                                    <th class="p-3">Hygen</th>
+                                    <th class="p-3">Sanitasi</th>
+                                    <th class="p-3">Kesimpulan</th>
                                     <th class="p-3">Catatan</th>
                                 </tr>
                             </thead>
-                            <tbody id="table-rekap-body"></tbody>
+                            <tbody id="table-gudang-body"></tbody>
                         </table>
                     </div>
-                </div>
-            </section>
+                </section>
 
-        </main>
+                <!-- TAB 3: PENGAWASAN LABEL PSAT -->
+                <section id="tab-label" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-tags text-emerald-600"></i>
+                            <span>Formulir Pengawasan Label PSAT</span>
+                        </h3>
+                        <form id="form-label" onsubmit="handleLabelSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
+                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengawasan</label>
+                                <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
+                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Sirimau">Sirimau</option>
+                                    <option value="Nusaniwe">Nusaniwe</option>
+                                    <option value="Baguala">Baguala</option>
+                                    <option value="Teluk Ambon">Teluk Ambon</option>
+                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAT</label>
+                                <input type="text" required name="jenis" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Beras / Buah / Sayur">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Dagang</label>
+                                <input type="text" required name="dagang" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama produk">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Produsen / Asal</label>
+                                <input type="text" required name="produsen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Produsen / asal daerah">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">No Izin Registrasi / Edar</label>
+                                <input type="text" required name="izin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nomor izin PSAT">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Netto</label>
+                                <select name="netto" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Ada">Ada</option>
+                                    <option value="Tidak">Tidak</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Produksi</label>
+                                <select name="tgl_produksi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Ada">Ada</option>
+                                    <option value="Tidak">Tidak</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Kadaluwarsa</label>
+                                <select name="tgl_kadaluwarsa" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Ada">Ada</option>
+                                    <option value="Tidak">Tidak</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan label">
+                            </div>
+                            <div class="md:col-span-3 flex justify-end">
+                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Label</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Table Data Label -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Label PSAT</h4>
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Petugas</th>
+                                    <th class="p-3">Lokasi & Kecamatan</th>
+                                    <th class="p-3">Komoditas / Dagang</th>
+                                    <th class="p-3">Produsen</th>
+                                    <th class="p-3">No. Izin</th>
+                                    <th class="p-3">Netto/Prod/Exp</th>
+                                    <th class="p-3">Catatan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-label-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TAB 4: PENGUJIAN PESTISIDA -->
+                <section id="tab-pestisida" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-flask text-emerald-600"></i>
+                            <span>Formulir Pengujian Pestisida PSAT</span>
+                        </h3>
+                        <form id="form-pestisida" onsubmit="handlePestisidaSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama penguji">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
+                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
+                                <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika / Laboratorium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
+                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Sirimau">Sirimau</option>
+                                    <option value="Nusaniwe">Nusaniwe</option>
+                                    <option value="Baguala">Baguala</option>
+                                    <option value="Teluk Ambon">Teluk Ambon</option>
+                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
+                                <select name="jenis_komoditas" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Sayuran Daun (Sawi, Bayam)">Sayuran Daun (Sawi, Bayam)</option>
+                                    <option value="Sayuran Buah (Cabai/Tomat/Terong)">Sayuran Buah (Cabai/Tomat/Terong)</option>
+                                    <option value="Bawang (Putih/Merah)">Bawang (Putih/Merah)</option>
+                                    <option value="Buah-buahan">Buah-buahan</option>
+                                    <option value="Rempah">Rempah</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
+                                <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sawi Hijau / Cabai Rawit">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal Komoditas</label>
+                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Petani Waiheru / Supplier Luar Kota">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Rapid Test</label>
+                                <select name="hasil_rapid" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Negatif">Negatif</option>
+                                    <option value="Low">Low</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
+                                <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Aman">Aman</option>
+                                    <option value="Tidak Aman">Tidak Aman</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji pestisida">
+                            </div>
+                            <div class="md:col-span-2 flex justify-end">
+                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Pestisida</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Table Data Pestisida -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Pestisida PSAT</h4>
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Petugas</th>
+                                    <th class="p-3">Lokasi Uji & Kec.</th>
+                                    <th class="p-3">Komoditas & Asal</th>
+                                    <th class="p-3">Rapid Test</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Catatan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-pestisida-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TAB 5: PENGUJIAN FORMALIN (PSAH) -->
+                <section id="tab-formalin" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+                            <span>Formulir Pengujian Formalin PSAH</span>
+                        </h3>
+                        <form id="form-formalin" onsubmit="handleFormalinSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
+                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
+                                <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Tradisional / Lab">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
+                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Sirimau">Sirimau</option>
+                                    <option value="Nusaniwe">Nusaniwe</option>
+                                    <option value="Baguala">Baguala</option>
+                                    <option value="Teluk Ambon">Teluk Ambon</option>
+                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAH</label>
+                                <select name="jenis_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Ikan">Ikan</option>
+                                    <option value="Ayam">Ayam</option>
+                                    <option value="Daging Sapi">Daging Sapi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama PSAH</label>
+                                <input type="text" required name="nama_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Ikan Cakalang / Ayam Potong">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal PSAH</label>
+                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pendaratan Ikan / Supplier">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Formalin</label>
+                                <select name="hasil_formalin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Negatif">Negatif</option>
+                                    <option value="Positif">Positif</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
+                                <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                    <option value="Aman">Aman</option>
+                                    <option value="Tidak Aman">Tidak Aman</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji formalin">
+                            </div>
+                            <div class="md:col-span-2 flex justify-end">
+                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Formalin</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Table Data Formalin -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
+                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Formalin PSAH</h4>
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Petugas</th>
+                                    <th class="p-3">Lokasi Uji & Kec.</th>
+                                    <th class="p-3">Jenis/Nama PSAH & Asal</th>
+                                    <th class="p-3">Hasil Formalin</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Catatan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-formalin-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TAB 6: DATA PENGAWASAN (REKAP KESELURUHAN) -->
+                <section id="tab-rekap" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                                    <i class="fa-solid fa-table-list text-emerald-600"></i>
+                                    <span>Rekapitulasi Seluruh Data Pengawasan & Pengujian</span>
+                                </h3>
+                                <p class="text-xs text-slate-500">Daftar lengkap seluruh data yang diinput pada semua menu pengawasan.</p>
+                            </div>
+                            <button onclick="syncFromCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2 shadow">
+                                <i class="fa-solid fa-rotate"></i>
+                                <span>Sinkronisasi ke Google Spreadsheet</span>
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                        <th class="p-3">Kategori</th>
+                                        <th class="p-3">Waktu</th>
+                                        <th class="p-3">Petugas</th>
+                                        <th class="p-3">Lokasi Uji / Komoditas</th>
+                                        <th class="p-3">Kecamatan</th>
+                                        <th class="p-3">Status / Kesimpulan</th>
+                                        <th class="p-3">Catatan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-rekap-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
@@ -658,28 +706,85 @@
         };
 
         let googleScriptUrl = localStorage.getItem('sipensil_script_url') || '';
-        let isSidebarOpen = true;
 
-        // Deklarasi variabel instance Chart.js secara global
         let pieGudangInstance = null;
         let pieLabelInstance = null;
         let piePestisidaInstance = null;
         let pieFormalinInstance = null;
-        let barChartInstance = null;
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const texts = document.querySelectorAll('.sidebar-text');
-            isSidebarOpen = !isSidebarOpen;
-            if (isSidebarOpen) {
-                sidebar.classList.remove('w-20');
-                sidebar.classList.add('w-64');
-                texts.forEach(el => el.classList.remove('hidden'));
-            } else {
-                sidebar.classList.remove('w-64');
-                sidebar.classList.add('w-20');
-                texts.forEach(el => el.classList.add('hidden'));
+        // --- SISTEM AUTENTIKASI / LOGIN ---
+        async function handleLogin(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('login-username').value.trim();
+            const passwordInput = document.getElementById('login-password').value.trim();
+            const errorEl = document.getElementById('login-error');
+            const submitBtn = document.getElementById('btn-login-submit');
+
+            errorEl.innerText = "";
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i><span>Memeriksa...</span>';
+            submitBtn.disabled = true;
+
+            // Jika URL Google Script belum diset atau ingin menggunakan validasi lokal bawaan sementara
+            if (!googleScriptUrl) {
+                // Fallback login lokal jika url apps script belum diatur
+                if (usernameInput === 'admin' && passwordInput === '123456') {
+                    proceedLoginSuccess();
+                } else {
+                    errorEl.innerText = "Username atau Password salah! (Default: admin / 123456)";
+                    resetLoginButton(submitBtn);
+                }
+                return;
             }
+
+            try {
+                const response = await fetch(googleScriptUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'login',
+                        username: usernameInput,
+                        password: passwordInput
+                    })
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    proceedLoginSuccess();
+                } else {
+                    errorEl.innerText = result.message || "Gagal masuk. Periksa kembali kredensial Anda.";
+                    resetLoginButton(submitBtn);
+                }
+            } catch (err) {
+                // Jika error CORS karena mode no-cors pada Fetch POST Apps Script, berikan fallback pengecekan lokal admin
+                if (usernameInput === 'admin' && passwordInput === '123456') {
+                    proceedLoginSuccess();
+                } else {
+                    errorEl.innerText = "Koneksi backend gagal / Username & Password salah.";
+                    resetLoginButton(submitBtn);
+                }
+            }
+        }
+
+        function proceedLoginSuccess() {
+            localStorage.setItem('sipensil_logged_in', 'true');
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+            renderTables();
+            updateDashboard();
+            setTimeout(() => { renderCharts(); }, 100);
+        }
+
+        function resetLoginButton(btn) {
+            btn.innerHTML = '<span>Masuk ke Dashboard</span><i class="fa-solid fa-arrow-right text-xs"></i>';
+            btn.disabled = false;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('sipensil_logged_in');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('login-container').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+            document.getElementById('login-error').innerText = "";
+            resetLoginButton(document.getElementById('btn-login-submit'));
         }
 
         function openConfigModal() {
@@ -816,7 +921,7 @@
             sendToCloud('Gudang', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengawasan Gudang PSAT berhasil disimpan.');
+            showModal('Berhasil', 'Data Pengawasan Gudang PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handleLabelSubmit(e) {
@@ -841,7 +946,7 @@
             sendToCloud('Label', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Pengawasan Label PSAT berhasil disimpan.');
+            showModal('Berhasil', 'Data Pengawasan Label PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handlePestisidaSubmit(e) {
@@ -864,7 +969,7 @@
             sendToCloud('Pestisida', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Uji Pestisida berhasil disimpan.');
+            showModal('Berhasil', 'Data Uji Pestisida berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         function handleFormalinSubmit(e) {
@@ -887,7 +992,7 @@
             sendToCloud('Formalin', newData);
             e.target.reset();
             renderTables();
-            showModal('Berhasil', 'Data Uji Formalin PSAH berhasil disimpan.');
+            showModal('Berhasil', 'Data Uji Formalin PSAH berhasil disimpan dan dikirim ke Google Spreadsheet.');
         }
 
         // Render Table Data
@@ -1099,10 +1204,11 @@
             }
         }
 
+        // Cek Sesi Saat Halaman Dimuat
         window.onload = function() {
-            renderTables();
-            updateDashboard();
-            renderCharts();
+            if (localStorage.getItem('sipensil_logged_in') === 'true') {
+                proceedLoginSuccess();
+            }
         }
     </script>
 </body>
