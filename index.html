@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta+Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
@@ -81,39 +81,39 @@
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md cursor-pointer">
                     <i class="fa-solid fa-chart-pie w-5 text-center"></i>
                     <span>Dashboard</span>
                 </button>
                 
                 <div class="pt-2 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Menu Pengawasan</div>
                 
-                <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
                     <i class="fa-solid fa-warehouse w-5 text-center"></i>
                     <span>Gudang PSAT</span>
                 </button>
-                <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
                     <i class="fa-solid fa-tags w-5 text-center"></i>
                     <span>Label PSAT</span>
                 </button>
-                <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
                     <i class="fa-solid fa-flask w-5 text-center"></i>
                     <span>Uji Pestisida</span>
                 </button>
-                <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
                     <i class="fa-solid fa-shield-halved w-5 text-center"></i>
                     <span>Uji Formalin (PSAH)</span>
                 </button>
-                <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white">
+                <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
                     <i class="fa-solid fa-table-list w-5 text-center"></i>
                     <span>Data Pengawasan</span>
                 </button>
 
                 <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Database</div>
                 
-                <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
+                <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50 cursor-pointer">
                     <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
-                    <span>Spreadsheet</span>
+                    <span>Spreadsheet URL</span>
                 </button>
             </nav>
 
@@ -138,7 +138,7 @@
                 <div class="flex items-center space-x-3">
                     <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
                         <i class="fa-solid fa-rotate"></i>
-                        <span>Refresh</span>
+                        <span>Refresh Data</span>
                     </button>
                     <button onclick="handleLogout()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer" title="Keluar Akun">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -177,15 +177,14 @@
                             </div>
                         </div>
                         <div class="flex space-x-2">
-                            <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition">Simpan URL</button>
-                            <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition">Batal</button>
+                            <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition cursor-pointer">Simpan URL</button>
+                            <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition cursor-pointer">Batal</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 1: DASHBOARD -->
                 <section id="tab-dashboard" class="space-y-6">
-                    <!-- Top Summary Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
                             <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold">
@@ -201,7 +200,7 @@
                                 <i class="fa-solid fa-shield-check"></i>
                             </div>
                             <div>
-                                <p class="text-xs text-slate-500 font-medium">Total Memenuhi Syarat / Aman</p>
+                                <p class="text-xs text-slate-500 font-medium">Memenuhi Syarat / Aman</p>
                                 <h3 id="stat-ms" class="text-2xl font-bold text-emerald-600">0</h3>
                             </div>
                         </div>
@@ -220,7 +219,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-slate-500 font-medium">Fokus Wilayah Teratas</p>
-                                <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">Sirimau</h3>
+                                <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">-</h3>
                             </div>
                         </div>
                     </div>
@@ -233,59 +232,26 @@
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Gudang PSAT</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative">
-                                    <canvas id="pieGudang"></canvas>
-                                </div>
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Gudang PSAT</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieGudang"></canvas></div>
                             </div>
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Label PSAT</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative">
-                                    <canvas id="pieLabel"></canvas>
-                                </div>
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Label PSAT</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieLabel"></canvas></div>
                             </div>
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida PSAT</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative">
-                                    <canvas id="piePestisida"></canvas>
-                                </div>
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="piePestisida"></canvas></div>
                             </div>
                             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin PSAH</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative">
-                                    <canvas id="pieFormalin"></canvas>
-                                </div>
+                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin (PSAH)</h4>
+                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieFormalin"></canvas></div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Data Pengawasan Summary Table di Dashboard -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
-                                <i class="fa-solid fa-table-list text-emerald-600"></i>
-                                <span>Data Pengawasan Terbaru (Semua Kategori)</span>
-                            </h3>
-                            <button onclick="switchTab('rekap')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lihat Selengkapnya &rarr;</button>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                        <th class="p-3">Kategori</th>
-                                        <th class="p-3">Waktu</th>
-                                        <th class="p-3">Petugas</th>
-                                        <th class="p-3">Lokasi & Kecamatan</th>
-                                        <th class="p-3">Status / Kesimpulan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashboard-recent-body"></tbody>
-                            </table>
                         </div>
                     </div>
                 </section>
 
-                <!-- TAB 2: PENGAWASAN GUDANG PSAT -->
+                <!-- TAB 2: GUDANG PSAT -->
                 <section id="tab-gudang" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -295,14 +261,14 @@
                         <form id="form-gudang" onsubmit="handleGudangSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Masukkan nama petugas pemeriksa">
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
                                 <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang Pengawasan</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang</label>
                                 <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Gudang Beras Passo">
                             </div>
                             <div>
@@ -316,21 +282,21 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Hygen</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hygen</label>
                                 <select name="hygen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                                     <option value="Memenuhi Syarat">Memenuhi Syarat</option>
                                     <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sanitasi</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Sanitasi</label>
                                 <select name="sanitasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                                     <option value="Memenuhi Syarat">Memenuhi Syarat</option>
                                     <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Kesimpulan</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kesimpulan</label>
                                 <select name="kesimpulan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                                     <option value="Aman">Aman</option>
                                     <option value="Tidak Aman">Tidak Aman</option>
@@ -338,35 +304,16 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan gudang...">
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan...">
                             </div>
                             <div class="md:col-span-2 flex justify-end">
                                 <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Gudang</button>
                             </div>
                         </form>
                     </div>
-
-                    <!-- Table Data Gudang -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Gudang PSAT</h4>
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Waktu</th>
-                                    <th class="p-3">Petugas</th>
-                                    <th class="p-3">Lokasi & Kecamatan</th>
-                                    <th class="p-3">Hygen</th>
-                                    <th class="p-3">Sanitasi</th>
-                                    <th class="p-3">Kesimpulan</th>
-                                    <th class="p-3">Catatan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-gudang-body"></tbody>
-                        </table>
-                    </div>
                 </section>
 
-                <!-- TAB 3: PENGAWASAN LABEL PSAT -->
+                <!-- TAB 3: LABEL PSAT -->
                 <section id="tab-label" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -405,12 +352,12 @@
                                 <input type="text" required name="dagang" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama produk">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Produsen / Asal</label>
-                                <input type="text" required name="produsen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Produsen / asal daerah">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Produsen</label>
+                                <input type="text" required name="produsen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Produsen / Asal">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">No Izin Registrasi / Edar</label>
-                                <input type="text" required name="izin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nomor izin PSAT">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">No Izin Edar</label>
+                                <input type="text" required name="izin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nomor Izin">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Netto</label>
@@ -435,54 +382,42 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan label">
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
                             </div>
                             <div class="md:col-span-3 flex justify-end">
                                 <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Label</button>
                             </div>
                         </form>
                     </div>
-
-                    <!-- Table Data Label -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengawasan Label PSAT</h4>
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Waktu</th>
-                                    <th class="p-3">Petugas</th>
-                                    <th class="p-3">Lokasi & Kecamatan</th>
-                                    <th class="p-3">Komoditas / Dagang</th>
-                                    <th class="p-3">Produsen</th>
-                                    <th class="p-3">No. Izin</th>
-                                    <th class="p-3">Netto/Prod/Exp</th>
-                                    <th class="p-3">Catatan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-label-body"></tbody>
-                        </table>
-                    </div>
                 </section>
 
-                <!-- TAB 4: PENGUJIAN PESTISIDA -->
+                <!-- TAB 4: UJI PESTISIDA -->
                 <section id="tab-pestisida" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
                             <i class="fa-solid fa-flask text-emerald-600"></i>
-                            <span>Formulir Pengujian Pestisida PSAT</span>
+                            <span>Formulir Uji Pestisida PSAT</span>
                         </h3>
                         <form id="form-pestisida" onsubmit="handlePestisidaSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama penguji">
+                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Uji</label>
                                 <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
-                                <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika / Laboratorium">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
+                                <input type="text" required name="jenis_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Sayuran / Buah">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
+                                <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Cabai Keriting">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal / Lokasi</label>
+                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Asal produk">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
@@ -495,74 +430,33 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
-                                <select name="jenis_komoditas" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Sayuran Daun (Sawi, Bayam)">Sayuran Daun (Sawi, Bayam)</option>
-                                    <option value="Sayuran Buah (Cabai/Tomat/Terong)">Sayuran Buah (Cabai/Tomat/Terong)</option>
-                                    <option value="Bawang (Putih/Merah)">Bawang (Putih/Merah)</option>
-                                    <option value="Buah-buahan">Buah-buahan</option>
-                                    <option value="Rempah">Rempah</option>
-                                </select>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Rapid Test</label>
+                                <input type="text" required name="hasil_rapid" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Negatif / Residu Rendah">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
-                                <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Sawi Hijau / Cabai Rawit">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal Komoditas</label>
-                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Petani Waiheru / Supplier Luar Kota">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Rapid Test</label>
-                                <select name="hasil_rapid" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Negatif">Negatif</option>
-                                    <option value="Low">Low</option>
-                                    <option value="High">High</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status</label>
                                 <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                                     <option value="Aman">Aman</option>
                                     <option value="Tidak Aman">Tidak Aman</option>
                                 </select>
                             </div>
-                            <div>
+                            <div class="md:col-span-2">
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji pestisida">
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
                             </div>
                             <div class="md:col-span-2 flex justify-end">
                                 <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Pestisida</button>
                             </div>
                         </form>
                     </div>
-
-                    <!-- Table Data Pestisida -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Pestisida PSAT</h4>
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Waktu</th>
-                                    <th class="p-3">Petugas</th>
-                                    <th class="p-3">Lokasi Uji & Kec.</th>
-                                    <th class="p-3">Komoditas & Asal</th>
-                                    <th class="p-3">Rapid Test</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Catatan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-pestisida-body"></tbody>
-                        </table>
-                    </div>
                 </section>
 
-                <!-- TAB 5: PENGUJIAN FORMALIN (PSAH) -->
+                <!-- TAB 5: UJI FORMALIN -->
                 <section id="tab-formalin" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
                             <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-                            <span>Formulir Pengujian Formalin PSAH</span>
+                            <span>Formulir Uji Formalin PSAH</span>
                         </h3>
                         <form id="form-formalin" onsubmit="handleFormalinSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -570,12 +464,20 @@
                                 <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengujian</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Uji</label>
                                 <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengujian</label>
-                                <input type="text" required name="lokasi_uji" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Tradisional / Lab">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAH</label>
+                                <input type="text" required name="jenis_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Ikan / Daging / Olahan">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama PSAH</label>
+                                <input type="text" required name="nama_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Ikan Tuna Segar">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal / Pasar</label>
+                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Pasar / Tempat asal">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
@@ -588,82 +490,36 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAH</label>
-                                <select name="jenis_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Ikan">Ikan</option>
-                                    <option value="Ayam">Ayam</option>
-                                    <option value="Daging Sapi">Daging Sapi</option>
-                                </select>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Formalin</label>
+                                <input type="text" required name="hasil_formalin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Negatif / Positif">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama PSAH</label>
-                                <input type="text" required name="nama_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Ikan Cakalang / Ayam Potong">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal PSAH</label>
-                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pendaratan Ikan / Supplier">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Pengujian Formalin</label>
-                                <select name="hasil_formalin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Negatif">Negatif</option>
-                                    <option value="Positif">Positif</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status Keamanan</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status</label>
                                 <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
                                     <option value="Aman">Aman</option>
                                     <option value="Tidak Aman">Tidak Aman</option>
                                 </select>
                             </div>
-                            <div>
+                            <div class="md:col-span-2">
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan uji formalin">
+                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
                             </div>
                             <div class="md:col-span-2 flex justify-end">
                                 <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Formalin</button>
                             </div>
                         </form>
                     </div>
-
-                    <!-- Table Data Formalin -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs overflow-x-auto">
-                        <h4 class="font-bold text-slate-800 mb-4">Riwayat Pengujian Formalin PSAH</h4>
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                    <th class="p-3">Waktu</th>
-                                    <th class="p-3">Petugas</th>
-                                    <th class="p-3">Lokasi Uji & Kec.</th>
-                                    <th class="p-3">Jenis/Nama PSAH & Asal</th>
-                                    <th class="p-3">Hasil Formalin</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Catatan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table-formalin-body"></tbody>
-                        </table>
-                    </div>
                 </section>
 
-                <!-- TAB 6: DATA PENGAWASAN (REKAP KESELURUHAN) -->
+                <!-- TAB 6: DATA PENGAWASAN (REKAP) -->
                 <section id="tab-rekap" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                                    <i class="fa-solid fa-table-list text-emerald-600"></i>
-                                    <span>Rekapitulasi Seluruh Data Pengawasan & Pengujian</span>
-                                </h3>
-                                <p class="text-xs text-slate-500">Daftar lengkap seluruh data yang diinput pada semua menu pengawasan.</p>
-                            </div>
-                            <button onclick="syncFromCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2 shadow">
-                                <i class="fa-solid fa-rotate"></i>
-                                <span>Sinkronisasi ke Google Spreadsheet</span>
-                            </button>
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                                <i class="fa-solid fa-table-list text-emerald-600"></i>
+                                <span>Rekapitulasi Seluruh Data Pengawasan</span>
+                            </h3>
                         </div>
-
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse text-sm">
                                 <thead>
@@ -671,13 +527,12 @@
                                         <th class="p-3">Kategori</th>
                                         <th class="p-3">Waktu</th>
                                         <th class="p-3">Petugas</th>
-                                        <th class="p-3">Lokasi Uji / Komoditas</th>
+                                        <th class="p-3">Lokasi / Komoditas</th>
                                         <th class="p-3">Kecamatan</th>
                                         <th class="p-3">Status / Kesimpulan</th>
-                                        <th class="p-3">Catatan</th>
                                     </tr>
                                 </thead>
-                                <tbody id="table-rekap-body"></tbody>
+                                <tbody id="rekap-table-body"></tbody>
                             </table>
                         </div>
                     </div>
@@ -687,528 +542,376 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- SCRIPT UTAMA & FETCH LOGIC -->
     <script>
-        // State Application
+        // Mengambil atau inisialisasi URL Google Apps Script Web App
+        let SCRIPT_URL = localStorage.getItem('sipensil_script_url') || "";
+
+        // Global State Data Lokal
         let appData = {
-            gudang: JSON.parse(localStorage.getItem('sipensil_gudang')) || [
-                { waktu: '2026-06-10 09:30', petugas: 'Ahmad S.', lokasi: 'Gudang Passoro', kecamatan: 'Baguala', hygen: 'Memenuhi Syarat', sanitasi: 'Memenuhi Syarat', kesimpulan: 'Aman', catatan: 'Penyimpanan bersih' }
-            ],
-            label: JSON.parse(localStorage.getItem('sipensil_label')) || [
-                { waktu: '2026-06-11 10:15', petugas: 'Maria L.', lokasi: 'Pasar Mardika', kecamatan: 'Sirimau', jenis: 'Beras', dagang: 'Beras Bulog Ramos', produsen: 'Bulog Ambon', izin: 'PIRT-12345', netto: 'Ada', tgl_produksi: 'Ada', tgl_kadaluwarsa: 'Ada', catatan: 'Lengkap' }
-            ],
-            pestisida: JSON.parse(localStorage.getItem('sipensil_pestisida')) || [
-                { waktu: '2026-06-12 11:00', petugas: 'Ritha K.', lokasi_uji: 'Pasar Mardika', jenis_komoditas: 'Sayur Daun (Sawi, Bayam)', nama_komoditas: 'Sawi Hijau', asal: 'Petani Waiheru', kecamatan: 'Baguala', hasil_rapid: 'Negatif', status: 'Aman', catatan: 'Bebas pestisida' }
-            ],
-            formalin: JSON.parse(localStorage.getItem('sipensil_formalin')) || [
-                { waktu: '2026-06-12 13:45', petugas: 'Barlin M.', lokasi_uji: 'Pasar Mardika', jenis_psah: 'Ikan', nama_psah: 'Ikan Cakalang', asal: 'Pendaratan Ikan', kecamatan: 'Sirimau', hasil_formalin: 'Negatif', status: 'Aman', catatan: 'Segar dan layak konsumsi' }
-            ]
+            gudang: [],
+            label: [],
+            pestisida: [],
+            formalin: []
         };
 
-        let googleScriptUrl = localStorage.getItem('sipensil_script_url') || '';
+        let chartGudang = null, chartLabel = null, chartPestisida = null, chartFormalin = null;
 
-        let pieGudangInstance = null;
-        let pieLabelInstance = null;
-        let piePestisidaInstance = null;
-        let pieFormalinInstance = null;
+        window.onload = function() {
+            if (!SCRIPT_URL) {
+                // Tampilkan modal konfigurasi URL jika belum diatur
+                document.getElementById('config-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('input-script-url').value = SCRIPT_URL;
+                syncFromCloud();
+            }
+        };
 
-        // --- SISTEM AUTENTIKASI / LOGIN ---
-        async function handleLogin(e) {
+        // --- SISTEM AUTENTIKASI ---
+        function handleLogin(e) {
             e.preventDefault();
-            const usernameInput = document.getElementById('login-username').value.trim();
-            const passwordInput = document.getElementById('login-password').value.trim();
-            const errorEl = document.getElementById('login-error');
-            const submitBtn = document.getElementById('btn-login-submit');
+            const user = document.getElementById('login-username').value;
+            const pass = document.getElementById('login-password').value;
+            const errEl = document.getElementById('login-error');
+            const btn = document.getElementById('btn-login-submit');
 
-            errorEl.innerText = "";
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i><span>Memeriksa...</span>';
-            submitBtn.disabled = true;
-
-            // Jika URL Google Script belum diset atau ingin menggunakan validasi lokal bawaan sementara
-            if (!googleScriptUrl) {
-                // Fallback login lokal jika url apps script belum diatur
-                if (usernameInput === 'admin' && passwordInput === '123456') {
-                    proceedLoginSuccess();
-                } else {
-                    errorEl.innerText = "Username atau Password salah! (Default: admin / 123456)";
-                    resetLoginButton(submitBtn);
-                }
+            if (!SCRIPT_URL) {
+                errEl.innerText = "URL Google Spreadsheet belum dikonfigurasi!";
                 return;
             }
 
-            try {
-                const response = await fetch(googleScriptUrl, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'login',
-                        username: usernameInput,
-                        password: passwordInput
-                    })
-                });
-                const result = await response.json();
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Memproses...</span>`;
 
-                if (result.status === 'success') {
-                    proceedLoginSuccess();
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ action: "login", username: user, password: pass })
+            })
+            .then(res => res.json())
+            .then(res => {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Masuk ke Dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
+                
+                if (res.status === "success") {
+                    document.getElementById('login-container').classList.add('hidden');
+                    document.getElementById('app-container').classList.remove('hidden');
+                    syncFromCloud();
                 } else {
-                    errorEl.innerText = result.message || "Gagal masuk. Periksa kembali kredensial Anda.";
-                    resetLoginButton(submitBtn);
+                    errEl.innerText = res.message || "Login gagal!";
                 }
-            } catch (err) {
-                // Jika error CORS karena mode no-cors pada Fetch POST Apps Script, berikan fallback pengecekan lokal admin
-                if (usernameInput === 'admin' && passwordInput === '123456') {
-                    proceedLoginSuccess();
-                } else {
-                    errorEl.innerText = "Koneksi backend gagal / Username & Password salah.";
-                    resetLoginButton(submitBtn);
-                }
-            }
-        }
-
-        function proceedLoginSuccess() {
-            localStorage.setItem('sipensil_logged_in', 'true');
-            document.getElementById('login-container').classList.add('hidden');
-            document.getElementById('app-container').classList.remove('hidden');
-            renderTables();
-            updateDashboard();
-            setTimeout(() => { renderCharts(); }, 100);
-        }
-
-        function resetLoginButton(btn) {
-            btn.innerHTML = '<span>Masuk ke Dashboard</span><i class="fa-solid fa-arrow-right text-xs"></i>';
-            btn.disabled = false;
+            })
+            .catch(err => {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Masuk ke Dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
+                errEl.innerText = "Gagal terhubung ke server.";
+                console.error(err);
+            });
         }
 
         function handleLogout() {
-            localStorage.removeItem('sipensil_logged_in');
             document.getElementById('app-container').classList.add('hidden');
             document.getElementById('login-container').classList.remove('hidden');
-            document.getElementById('loginForm').reset();
-            document.getElementById('login-error').innerText = "";
-            resetLoginButton(document.getElementById('btn-login-submit'));
         }
 
+        // --- MANAJEMEN URL CONFIG ---
         function openConfigModal() {
-            document.getElementById('input-script-url').value = googleScriptUrl;
             document.getElementById('config-modal').classList.remove('hidden');
         }
-
         function closeConfigModal() {
+            if(!SCRIPT_URL) return; // Wajib isi jika belum ada
             document.getElementById('config-modal').classList.add('hidden');
         }
-
         function saveScriptUrl() {
-            const url = document.getElementById('input-script-url').value.trim();
-            googleScriptUrl = url;
-            localStorage.setItem('sipensil_script_url', url);
-            closeConfigModal();
-            showModal('Berhasil', 'URL Google Spreadsheet berhasil disimpan.');
-        }
-
-        async function sendToCloud(sheetName, dataObj) {
-            if (!googleScriptUrl) return;
-            try {
-                await fetch(googleScriptUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sheet: sheetName, data: dataObj })
-                });
-            } catch (err) {
-                console.error("Gagal sinkron ke Google Spreadsheet:", err);
-            }
-        }
-
-        async function syncFromCloud() {
-            if (!googleScriptUrl) {
-                openConfigModal();
+            const val = document.getElementById('input-script-url').value.trim();
+            if(!val) {
+                alert("URL tidak boleh kosong!");
                 return;
             }
-            showModal('Sinkronisasi', 'Mengambil data dari Google Spreadsheet...');
-            try {
-                const response = await fetch(googleScriptUrl);
-                const result = await response.json();
-                if (result) {
-                    if (result.gudang) appData.gudang = result.gudang;
-                    if (result.label) appData.label = result.label;
-                    if (result.pestisida) appData.pestisida = result.pestisida;
-                    if (result.formalin) appData.formalin = result.formalin;
-                    saveDataLocally();
-                    showModal('Berhasil', 'Data berhasil disinkronkan dengan Google Spreadsheet.');
-                }
-            } catch (err) {
-                showModal('Informasi', 'Sinkronisasi lokal aktif. Pastikan Web App URL Apps Script mengizinkan GET untuk mengambil data.', true);
-            }
+            SCRIPT_URL = val;
+            localStorage.setItem('sipensil_script_url', SCRIPT_URL);
+            document.getElementById('config-modal').classList.add('hidden');
+            syncFromCloud();
         }
 
-        function saveDataLocally() {
-            localStorage.setItem('sipensil_gudang', JSON.stringify(appData.gudang));
-            localStorage.setItem('sipensil_label', JSON.stringify(appData.label));
-            localStorage.setItem('sipensil_pestisida', JSON.stringify(appData.pestisida));
-            localStorage.setItem('sipensil_formalin', JSON.stringify(appData.formalin));
-            updateDashboard();
-            renderTables();
-        }
-
+        // --- NAVIGASI TAB ---
         function switchTab(tabId) {
             const tabs = ['dashboard', 'gudang', 'label', 'pestisida', 'formalin', 'rekap'];
             tabs.forEach(t => {
-                const sec = document.getElementById(`tab-${t}`);
-                if(sec) sec.classList.add('hidden');
-                const navBtn = document.getElementById(`nav-${t}`);
-                if (navBtn) {
-                    navBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white";
+                const el = document.getElementById('tab-' + t);
+                const nav = document.getElementById('nav-' + t);
+                if(el) el.classList.add('hidden');
+                if(nav) {
+                    nav.classList.remove('bg-emerald-800', 'text-white', 'shadow-md');
+                    nav.classList.add('text-emerald-200', 'hover:bg-emerald-800/60', 'hover:text-white');
                 }
             });
 
-            const activeSec = document.getElementById(`tab-${tabId}`);
-            if(activeSec) activeSec.classList.remove('hidden');
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeNav) {
-                activeNav.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md";
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) {
+                activeNav.classList.add('bg-emerald-800', 'text-white', 'shadow-md');
+                activeNav.classList.remove('text-emerald-200', 'hover:bg-emerald-800/60', 'hover:text-white');
             }
 
             const titles = {
                 dashboard: 'Dashboard Utama',
                 gudang: 'Pengawasan Gudang PSAT',
                 label: 'Pengawasan Label PSAT',
-                pestisida: 'Pengujian Pestisida PSAT',
-                formalin: 'Pengujian Formalin PSAH',
-                rekap: 'Data Pengawasan Keseluruhan'
+                pestisida: 'Uji Residu Pestisida',
+                formalin: 'Uji Formalin PSAH',
+                rekap: 'Data Rekapitulasi Pengawasan'
             };
-            document.getElementById('page-title').innerText = titles[tabId];
-
-            if(tabId === 'dashboard') {
-                setTimeout(() => { renderCharts(); }, 50);
-            } else if(tabId === 'rekap') {
-                renderRekapTable();
-            }
+            document.getElementById('page-title').innerText = titles[tabId] || 'Dashboard';
         }
 
-        function showModal(title, message, isSuccess = true) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            const iconDiv = document.getElementById('modal-icon');
-            if(isSuccess) {
-                iconDiv.className = "w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
-                iconDiv.innerHTML = '<i class="fa-solid fa-check"></i>';
-            } else {
-                iconDiv.className = "w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
-                iconDiv.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-            }
-            document.getElementById('custom-modal').classList.remove('hidden');
+        // --- SINKRONISASI DATA DARI CLOUD (GET) ---
+        function syncFromCloud() {
+            if(!SCRIPT_URL) return;
+            fetch(SCRIPT_URL)
+                .then(res => res.json())
+                .then(data => {
+                    appData.gudang = data.gudang || [];
+                    appData.label = data.label || [];
+                    appData.pestisida = data.pestisida || [];
+                    appData.formalin = data.formalin || [];
+
+                    updateDashboardStats();
+                    renderCharts();
+                    renderRecentTables();
+                })
+                .catch(err => console.error("Gagal sinkronisasi data:", err));
         }
 
-        function closeModal() {
-            document.getElementById('custom-modal').classList.add('hidden');
+        // --- KIRIM DATA KE CLOUD (POST) ---
+        function sendDataToServer(sheetName, formData, formElement) {
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ sheet: sheetName, data: formData })
+            })
+            .then(() => {
+                showModal("Berhasil", "Data pengawasan berhasil disimpan ke Google Spreadsheet.");
+                if(formElement) formElement.reset();
+                setTimeout(syncFromCloud, 1500); // Tarik data terbaru setelah simpan
+            })
+            .catch(err => {
+                showModal("Error", "Gagal mengirim data ke server.", "rose");
+                console.error(err);
+            });
         }
 
-        // Handle Form Submissions
+        // --- HANDLER FORM SUBMIT ---
         function handleGudangSubmit(e) {
             e.preventDefault();
-            const fd = new FormData(e.target);
-            const newData = {
-                waktu: fd.get('waktu'),
-                petugas: fd.get('petugas'),
-                lokasi: fd.get('lokasi'),
-                kecamatan: fd.get('kecamatan'),
-                hygen: fd.get('hygen'),
-                sanitasi: fd.get('sanitasi'),
-                kesimpulan: fd.get('kesimpulan'),
-                catatan: fd.get('catatan')
+            const form = e.target;
+            const data = {
+                waktu: form.waktu.value,
+                petugas: form.petugas.value,
+                lokasi: form.lokasi.value,
+                kecamatan: form.kecamatan.value,
+                hygen: form.hygen.value,
+                sanitasi: form.sanitasi.value,
+                kesimpulan: form.kesimpulan.value,
+                catatan: form.catatan.value
             };
-            appData.gudang.unshift(newData);
-            saveDataLocally();
-            sendToCloud('Gudang', newData);
-            e.target.reset();
-            renderTables();
-            showModal('Berhasil', 'Data Pengawasan Gudang PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
+            sendDataToServer("Gudang", data, form);
         }
 
         function handleLabelSubmit(e) {
             e.preventDefault();
-            const fd = new FormData(e.target);
-            const newData = {
-                waktu: fd.get('waktu'),
-                petugas: fd.get('petugas'),
-                lokasi: fd.get('lokasi'),
-                kecamatan: fd.get('kecamatan'),
-                jenis: fd.get('jenis'),
-                dagang: fd.get('dagang'),
-                produsen: fd.get('produsen'),
-                izin: fd.get('izin'),
-                netto: fd.get('netto'),
-                tgl_produksi: fd.get('tgl_produksi'),
-                tgl_kadaluwarsa: fd.get('tgl_kadaluwarsa'),
-                catatan: fd.get('catatan')
+            const form = e.target;
+            const data = {
+                waktu: form.waktu.value,
+                petugas: form.petugas.value,
+                lokasi: form.lokasi.value,
+                kecamatan: form.kecamatan.value,
+                jenis: form.jenis.value,
+                dagang: form.dagang.value,
+                produsen: form.produsen.value,
+                izin: form.izin.value,
+                netto: form.netto.value,
+                tgl_produksi: form.tgl_produksi.value,
+                tgl_kadaluwarsa: form.tgl_kadaluwarsa.value,
+                catatan: form.catatan.value
             };
-            appData.label.unshift(newData);
-            saveDataLocally();
-            sendToCloud('Label', newData);
-            e.target.reset();
-            renderTables();
-            showModal('Berhasil', 'Data Pengawasan Label PSAT berhasil disimpan dan dikirim ke Google Spreadsheet.');
+            sendDataToServer("Label", data, form);
         }
 
         function handlePestisidaSubmit(e) {
             e.preventDefault();
-            const fd = new FormData(e.target);
-            const newData = {
-                waktu: fd.get('waktu'),
-                petugas: fd.get('petugas'),
-                lokasi_uji: fd.get('lokasi_uji'),
-                kecamatan: fd.get('kecamatan'),
-                jenis_komoditas: fd.get('jenis_komoditas'),
-                nama_komoditas: fd.get('nama_komoditas'),
-                asal: fd.get('asal'),
-                hasil_rapid: fd.get('hasil_rapid'),
-                status: fd.get('status'),
-                catatan: fd.get('catatan')
+            const form = e.target;
+            const data = {
+                waktu: form.waktu.value,
+                petugas: form.petugas.value,
+                jenis_komoditas: form.jenis_komoditas.value,
+                nama_komoditas: form.nama_komoditas.value,
+                asal: form.asal.value,
+                kecamatan: form.kecamatan.value,
+                hasil_rapid: form.hasil_rapid.value,
+                status: form.status.value,
+                catatan: form.catatan.value
             };
-            appData.pestisida.unshift(newData);
-            saveDataLocally();
-            sendToCloud('Pestisida', newData);
-            e.target.reset();
-            renderTables();
-            showModal('Berhasil', 'Data Uji Pestisida berhasil disimpan dan dikirim ke Google Spreadsheet.');
+            sendDataToServer("Pestisida", data, form);
         }
 
         function handleFormalinSubmit(e) {
             e.preventDefault();
-            const fd = new FormData(e.target);
-            const newData = {
-                waktu: fd.get('waktu'),
-                petugas: fd.get('petugas'),
-                lokasi_uji: fd.get('lokasi_uji'),
-                kecamatan: fd.get('kecamatan'),
-                jenis_psah: fd.get('jenis_psah'),
-                nama_psah: fd.get('nama_psah'),
-                asal: fd.get('asal'),
-                hasil_formalin: fd.get('hasil_formalin'),
-                status: fd.get('status'),
-                catatan: fd.get('catatan')
+            const form = e.target;
+            const data = {
+                waktu: form.waktu.value,
+                petugas: form.petugas.value,
+                jenis_psah: form.jenis_psah.value,
+                nama_psah: form.nama_psah.value,
+                asal: form.asal.value,
+                kecamatan: form.kecamatan.value,
+                hasil_formalin: form.hasil_formalin.value,
+                status: form.status.value,
+                catatan: form.catatan.value
             };
-            appData.formalin.unshift(newData);
-            saveDataLocally();
-            sendToCloud('Formalin', newData);
-            e.target.reset();
-            renderTables();
-            showModal('Berhasil', 'Data Uji Formalin PSAH berhasil disimpan dan dikirim ke Google Spreadsheet.');
+            sendDataToServer("Formalin", data, form);
         }
 
-        // Render Table Data
-        function renderTables() {
-            const tbGudang = document.getElementById('table-gudang-body');
-            if (tbGudang) {
-                tbGudang.innerHTML = appData.gudang.map(item => `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 text-slate-600">${item.waktu}</td>
-                        <td class="p-3 font-medium text-slate-800">${item.petugas}</td>
-                        <td class="p-3 text-slate-600">${item.lokasi} (Kec. ${item.kecamatan})</td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.hygen === 'Memenuhi Syarat' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.hygen}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.sanitasi === 'Memenuhi Syarat' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.sanitasi}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.kesimpulan === 'Aman' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.kesimpulan}</span></td>
-                        <td class="p-3 text-slate-500 text-xs">${item.catatan || '-'}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengawasan gudang.</td></tr>`;
-            }
-
-            const tbLabel = document.getElementById('table-label-body');
-            if (tbLabel) {
-                tbLabel.innerHTML = appData.label.map(item => `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 text-slate-600">${item.waktu}</td>
-                        <td class="p-3 font-medium text-slate-800">${item.petugas}</td>
-                        <td class="p-3 text-slate-600">${item.lokasi} (Kec. ${item.kecamatan})</td>
-                        <td class="p-3 text-slate-600">${item.jenis} - <b>${item.dagang}</b></td>
-                        <td class="p-3 text-slate-600">${item.produsen}</td>
-                        <td class="p-3 text-slate-600 font-mono text-xs">${item.izin}</td>
-                        <td class="p-3 text-xs text-slate-600">Netto:${item.netto}|Prod:${item.tgl_produksi}|Exp:${item.tgl_kadaluwarsa}</td>
-                        <td class="p-3 text-slate-500 text-xs">${item.catatan || '-'}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="8" class="text-center p-4 text-slate-400">Belum ada data pengawasan label.</td></tr>`;
-            }
-
-            const tbPestisida = document.getElementById('table-pestisida-body');
-            if (tbPestisida) {
-                tbPestisida.innerHTML = appData.pestisida.map(item => `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 text-slate-600">${item.waktu}</td>
-                        <td class="p-3 font-medium text-slate-800">${item.petugas}</td>
-                        <td class="p-3 text-slate-600">${item.lokasi_uji} (Kec. ${item.kecamatan})</td>
-                        <td class="p-3 text-slate-600"><b>${item.nama_komoditas}</b> (${item.jenis_komoditas})<br><span class="text-xs text-slate-500">Asal: ${item.asal}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.hasil_rapid === 'Negatif' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${item.hasil_rapid}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.status === 'Aman' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.status}</span></td>
-                        <td class="p-3 text-slate-500 text-xs">${item.catatan || '-'}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengujian pestisida.</td></tr>`;
-            }
-
-            const tbFormalin = document.getElementById('table-formalin-body');
-            if (tbFormalin) {
-                tbFormalin.innerHTML = appData.formalin.map(item => `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 text-slate-600">${item.waktu}</td>
-                        <td class="p-3 font-medium text-slate-800">${item.petugas}</td>
-                        <td class="p-3 text-slate-600">${item.lokasi_uji} (Kec. ${item.kecamatan})</td>
-                        <td class="p-3 text-slate-600">${item.jenis_psah} - <b>${item.nama_psah}</b><br><span class="text-xs text-slate-500">Asal: ${item.asal}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.hasil_formalin === 'Negatif' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.hasil_formalin}</span></td>
-                        <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.status === 'Aman' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.status}</span></td>
-                        <td class="p-3 text-slate-500 text-xs">${item.catatan || '-'}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengujian formalin.</td></tr>`;
-            }
-
-            renderDashboardRecent();
-        }
-
-        function renderDashboardRecent() {
-            const recentBody = document.getElementById('dashboard-recent-body');
-            if (!recentBody) return;
-            let allItems = [];
-            appData.gudang.forEach(i => allItems.push({ kat: 'Gudang PSAT', waktu: i.waktu, petugas: i.petugas, loc: i.lokasi, kec: i.kecamatan, stat: i.kesimpulan }));
-            appData.label.forEach(i => allItems.push({ kat: 'Label PSAT', waktu: i.waktu, petugas: i.petugas, loc: i.dagang, kec: i.kecamatan, stat: 'Aman' }));
-            appData.pestisida.forEach(i => allItems.push({ kat: 'Uji Pestisida', waktu: i.waktu, petugas: i.petugas, loc: `${i.nama_komoditas} (Uji di ${i.lokasi_uji})`, kec: i.kecamatan, stat: i.status }));
-            appData.formalin.forEach(i => allItems.push({ kat: 'Uji Formalin', waktu: i.waktu, petugas: i.petugas, loc: `${i.nama_psah} (Uji di ${i.lokasi_uji})`, kec: i.kecamatan, stat: i.status }));
-
-            recentBody.innerHTML = allItems.slice(0, 5).map(item => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50">
-                    <td class="p-3 font-semibold text-emerald-800 text-xs">${item.kat}</td>
-                    <td class="p-3 text-slate-600 text-xs">${item.waktu}</td>
-                    <td class="p-3 text-slate-800">${item.petugas}</td>
-                    <td class="p-3 text-slate-600">${item.loc} (Kec. ${item.kec})</td>
-                    <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.stat === 'Aman' || item.stat === 'Memenuhi Syarat' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.stat}</span></td>
-                </tr>
-            `).join('') || `<tr><td colspan="5" class="text-center p-4 text-slate-400">Belum ada data pengawasan.</td></tr>`;
-        }
-
-        function renderRekapTable() {
-            const rekapBody = document.getElementById('table-rekap-body');
-            if (!rekapBody) return;
-            let allItems = [];
-            appData.gudang.forEach(i => allItems.push({ kat: 'Gudang PSAT', waktu: i.waktu, petugas: i.petugas, loc: i.lokasi, kec: i.kecamatan, stat: i.kesimpulan, catatan: i.catatan }));
-            appData.label.forEach(i => allItems.push({ kat: 'Label PSAT', waktu: i.waktu, petugas: i.petugas, loc: `${i.jenis} - ${i.dagang} (${i.produsen})`, kec: i.kecamatan, stat: 'Lengkap', catatan: i.catatan }));
-            appData.pestisida.forEach(i => allItems.push({ kat: 'Uji Pestisida', waktu: i.waktu, petugas: i.petugas, loc: `${i.jenis_komoditas}: ${i.nama_komoditas} (Asal: ${i.asal})`, kec: i.kecamatan, stat: i.status, catatan: i.catatan }));
-            appData.formalin.forEach(i => allItems.push({ kat: 'Uji Formalin', waktu: i.waktu, petugas: i.petugas, loc: `${i.jenis_psah}: ${i.nama_psah} (Asal: ${i.asal})`, kec: i.kecamatan, stat: i.status, catatan: i.catatan }));
-
-            rekapBody.innerHTML = allItems.map(item => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50">
-                    <td class="p-3 font-semibold text-emerald-800 text-xs">${item.kat}</td>
-                    <td class="p-3 text-slate-600 text-xs">${item.waktu}</td>
-                    <td class="p-3 text-slate-800">${item.petugas}</td>
-                    <td class="p-3 text-slate-600">${item.loc}</td>
-                    <td class="p-3 text-slate-600">Kec. ${item.kec}</td>
-                    <td class="p-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold ${item.stat === 'Aman' || item.stat === 'Memenuhi Syarat' || item.stat === 'Lengkap' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${item.stat}</span></td>
-                    <td class="p-3 text-slate-500 text-xs">${item.catatan || '-'}</td>
-                </tr>
-            `).join('') || `<tr><td colspan="7" class="text-center p-4 text-slate-400">Belum ada data pengawasan.</td></tr>`;
-        }
-
-        function updateDashboard() {
+        // --- STATISTIK & RENDER DASHBOARD ---
+        function updateDashboardStats() {
             const totalGudang = appData.gudang.length;
             const totalLabel = appData.label.length;
-            const totalPestisida = appData.pestisida.length;
-            const totalFormalin = appData.formalin.length;
-            const totalAll = totalGudang + totalLabel + totalPestisida + totalFormalin;
+            const totalPest = appData.pestisida.length;
+            const totalForm = appData.formalin.length;
+            const totalAll = totalGudang + totalLabel + totalPest + totalForm;
 
-            let msCount = 0;
-            appData.gudang.forEach(i => { if(i.kesimpulan === 'Aman') msCount++; });
-            msCount += appData.label.length;
-            appData.pestisida.forEach(i => { if(i.status === 'Aman') msCount++; });
-            appData.formalin.forEach(i => { if(i.status === 'Aman') msCount++; });
+            let amanCount = 0;
+            let tmsCount = 0;
+            let kecamatanMap = {};
 
-            let tmsCount = totalAll - msCount;
-
-            let kecCount = {};
-            [...appData.gudang, ...appData.label, ...appData.pestisida, ...appData.formalin].forEach(i => {
-                if(i.kecamatan) {
-                    kecCount[i.kecamatan] = (kecCount[i.kecamatan] || 0) + 1;
-                }
+            // Hitung Gudang
+            appData.gudang.forEach(item => {
+                if(item.kesimpulan === 'Aman') amanCount++; else tmsCount++;
+                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
             });
-            let topKecamatan = Object.keys(kecCount).reduce((a, b) => kecCount[a] > kecCount[b] ? a : b, 'Sirimau');
+            // Hitung Label (Asumsi Label lolos jika lengkap atau anggap aman secara default jika terekap)
+            appData.label.forEach(item => {
+                amanCount++; 
+                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
+            });
+            // Hitung Pestisida
+            appData.pestisida.forEach(item => {
+                if(item.status === 'Aman') amanCount++; else tmsCount++;
+                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
+            });
+            // Hitung Formalin
+            appData.formalin.forEach(item => {
+                if(item.status === 'Aman') amanCount++; else tmsCount++;
+                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
+            });
 
-            const elTotal = document.getElementById('stat-total');
-            const elMs = document.getElementById('stat-ms');
-            const elTms = document.getElementById('stat-tms');
-            const elFokus = document.getElementById('stat-fokus');
+            let topKecamatan = "-";
+            let maxCount = 0;
+            for(let kec in kecamatanMap) {
+                if(kecamatanMap[kec] > maxCount) {
+                    maxCount = kecamatanMap[kec];
+                    topKecamatan = kec;
+                }
+            }
 
-            if (elTotal) elTotal.innerText = totalAll;
-            if (elMs) elMs.innerText = msCount;
-            if (elTms) elTms.innerText = tmsCount;
-            if (elFokus) elFokus.innerText = `Kec. ${topKecamatan || 'Sirimau'}`;
-
-            renderDashboardRecent();
+            document.getElementById('stat-total').innerText = totalAll;
+            document.getElementById('stat-ms').innerText = amanCount;
+            document.getElementById('stat-tms').innerText = tmsCount;
+            document.getElementById('stat-fokus').innerText = topKecamatan;
         }
 
+        // --- RENDER PIE CHARTS ---
         function renderCharts() {
-            let gAman = 0, gTidak = 0;
-            appData.gudang.forEach(i => { if(i.kesimpulan === 'Aman') gAman++; else gTidak++; });
-
-            let lAman = appData.label.length, lTidak = 0;
-
-            let pAman = 0, pTidak = 0;
-            appData.pestisida.forEach(i => { if(i.status === 'Aman') pAman++; else pTidak++; });
-
-            let fAman = 0, fTidak = 0;
-            appData.formalin.forEach(i => { if(i.status === 'Aman') fAman++; else fTidak++; });
-
-            const elPieGudang = document.getElementById('pieGudang');
-            if (elPieGudang) {
-                if(pieGudangInstance) pieGudangInstance.destroy();
-                pieGudangInstance = new Chart(elPieGudang.getContext('2d'), {
-                    type: 'pie',
-                    data: {
-                        labels: ['Aman', 'Tidak Aman'],
-                        datasets: [{ data: [gAman, gTidak], backgroundColor: ['#059669', '#e11d48'] }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
+            // Helper hitung status Aman vs Tidak Aman
+            const getCounts = (arr, keyField) => {
+                let aman = 0, tms = 0;
+                arr.forEach(i => {
+                    let val = i[keyField] || i.status || i.kesimpulan;
+                    if(val === 'Aman' || val === 'Memenuhi Syarat') aman++;
+                    else tms++;
                 });
-            }
+                return [aman, tms];
+            };
 
-            const elPieLabel = document.getElementById('pieLabel');
-            if (elPieLabel) {
-                if(pieLabelInstance) pieLabelInstance.destroy();
-                pieLabelInstance = new Chart(elPieLabel.getContext('2d'), {
-                    type: 'pie',
-                    data: {
-                        labels: ['Memenuhi', 'Tidak Memenuhi'],
-                        datasets: [{ data: [lAman, lTidak], backgroundColor: ['#059669', '#e11d48'] }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
-                });
-            }
+            const gCounts = getCounts(appData.gudang, 'kesimpulan');
+            const lCounts = [appData.label.length, 0]; // Label terekap
+            const pCounts = getCounts(appData.pestisida, 'status');
+            const fCounts = getCounts(appData.formalin, 'status');
 
-            const elPiePestisida = document.getElementById('piePestisida');
-            if (elPiePestisida) {
-                if(piePestisidaInstance) piePestisidaInstance.destroy();
-                piePestisidaInstance = new Chart(elPiePestisida.getContext('2d'), {
-                    type: 'pie',
+            const createPie = (canvasId, chartInstance, dataVals) => {
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                if(chartInstance) chartInstance.destroy();
+                return new Chart(ctx, {
+                    type: 'doughnut',
                     data: {
-                        labels: ['Aman', 'Tidak Aman'],
-                        datasets: [{ data: [pAman, pTidak], backgroundColor: ['#059669', '#e11d48'] }]
+                        labels: ['Aman / MS', 'Tidak Aman / TMS'],
+                        datasets: [{
+                            data: dataVals.reduce((a,b)=>a+b,0) === 0 ? [1, 0] : dataVals,
+                            backgroundColor: ['#10b981', '#f43f5e'],
+                            borderWidth: 0
+                        }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+                    }
                 });
-            }
+            };
 
-            const elPieFormalin = document.getElementById('pieFormalin');
-            if (elPieFormalin) {
-                if(pieFormalinInstance) pieFormalinInstance.destroy();
-                pieFormalinInstance = new Chart(elPieFormalin.getContext('2d'), {
-                    type: 'pie',
-                    data: {
-                        labels: ['Aman', 'Tidak Aman'],
-                        datasets: [{ data: [fAman, fTidak], backgroundColor: ['#059669', '#e11d48'] }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } }
-                });
-            }
+            chartGudang = createPie('pieGudang', chartGudang, gCounts);
+            chartLabel = createPie('pieLabel', chartLabel, lCounts);
+            chartPestisida = createPie('piePestisida', chartPestisida, pCounts);
+            chartFormalin = createPie('pieFormalin', chartFormalin, fCounts);
         }
 
-        // Cek Sesi Saat Halaman Dimuat
-        window.onload = function() {
-            if (localStorage.getItem('sipensil_logged_in') === 'true') {
-                proceedLoginSuccess();
+        // --- RENDER TABEL REKAP & TERBARU ---
+        function renderRecentTables() {
+            let allRows = [];
+            appData.gudang.forEach(i => allRows.push({ kat: 'Gudang PSAT', waktu: i.waktu, petugas: i.petugas, info: i.lokasi, kec: i.kecamatan, status: i.kesimpulan }));
+            appData.label.forEach(i => allRows.push({ kat: 'Label PSAT', waktu: i.waktu, petugas: i.petugas, info: i.dagang, kec: i.kecamatan, status: 'Lengkap' }));
+            appData.pestisida.forEach(i => allRows.push({ kat: 'Uji Pestisida', waktu: i.waktu, petugas: i.petugas, info: i.nama_komoditas, kec: i.kecamatan, status: i.status }));
+            appData.formalin.forEach(i => allRows.push({ kat: 'Uji Formalin', waktu: i.waktu, petugas: i.petugas, info: i.nama_psah, kec: i.kecamatan, status: i.status }));
+
+            // Urutkan berdasarkan waktu terbaru
+            allRows.sort((a,b) => new Date(b.waktu) - new Date(a.waktu));
+
+            let rekapHtml = '';
+            allRows.forEach(row => {
+                let badgeColor = (row.status === 'Aman' || row.status === 'Lengkap' || row.status === 'Memenuhi Syarat') ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
+                rekapHtml += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                        <td class="p-3 font-semibold text-xs text-slate-700">${row.kat}</td>
+                        <td class="p-3 text-xs text-slate-500">${row.waktu || '-'}</td>
+                        <td class="p-3 text-xs text-slate-600">${row.petugas || '-'}</td>
+                        <td class="p-3 text-xs text-slate-800 font-medium">${row.info || '-'}</td>
+                        <td class="p-3 text-xs text-slate-600">${row.kec || '-'}</td>
+                        <td class="p-3 text-xs"><span class="px-2.5 py-1 rounded-full font-semibold ${badgeColor}">${row.status || 'Aman'}</span></td>
+                    </tr>
+                `;
+            });
+
+            const rekapBody = document.getElementById('rekap-table-body');
+            if(rekapBody) rekapBody.innerHTML = rekapHtml || `<tr><td colspan="6" class="p-4 text-center text-xs text-slate-400">Belum ada data pengawasan.</td></tr>`;
+        }
+
+        // --- MODAL NOTIFIKASI ---
+        function showModal(title, message, type='emerald') {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            const iconEl = document.getElementById('modal-icon');
+            if(type === 'rose') {
+                iconEl.className = "w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
+                iconEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+            } else {
+                iconEl.className = "w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
+                iconEl.innerHTML = `<i class="fa-solid fa-check"></i>`;
             }
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
         }
     </script>
 </body>
