@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SiPenSil Pengawasan Keamanan PSAT - DPKP Kota Ambon</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
@@ -17,7 +14,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
 
-    <!-- LOGIN SCREEN CONTAINER -->
     <div id="login-container" class="fixed inset-0 bg-emerald-950 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-emerald-100 relative overflow-hidden">
             <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-100 rounded-full blur-2xl pointer-events-none"></div>
@@ -58,16 +54,12 @@
 
                 <p id="login-error" class="text-xs text-rose-600 text-center font-medium mt-2 min-h-[16px]"></p>
             </form>
-
-            
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER (Disembunyikan Sebelum Login) -->
-    <div id="app-container" class="hidden flex-1 flex h-screen overflow-hidden w-full">
+    <div id="app-container" class="hidden flex-1 flex h-screen overflow-hidden w-full relative">
 
-        <!-- SIDEBAR -->
-        <aside class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20">
+        <aside id="sidebar" class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20 transition-all duration-300">
             <div class="p-5 border-b border-emerald-800 flex items-center space-x-3">
                 <div class="bg-emerald-700 p-2.5 rounded-xl text-amber-400 font-bold text-xl shadow-inner">
                     <i class="fa-solid fa-seedling"></i>
@@ -113,6 +105,12 @@
                     <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
                     <span>Spreadsheet URL</span>
                 </button>
+
+                <!-- TOMBOL BARU: Buka Spreadsheet -->
+                <a href="https://docs.google.com/spreadsheets/d/1KOJQI_w0HtZxnXYks1EoAm1IQyopS06EdRrh7-XC4mo/edit?gid=1012408133#gid=1012408133" target="_blank" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50 cursor-pointer">
+                    <i class="fa-solid fa-file-excel w-5 text-center text-emerald-400"></i>
+                    <span>Buka Spreadsheet</span>
+                </a>
             </nav>
 
             <div class="p-4 border-t border-emerald-800/80 bg-emerald-950/40 text-xs text-emerald-300/80 flex items-center justify-between">
@@ -124,14 +122,15 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT CONTAINER -->
         <div class="flex-1 flex flex-col h-screen overflow-hidden">
             
-            <!-- HEADER -->
             <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-xs z-10">
                 <div class="flex items-center space-x-4">
+                    <button onclick="toggleSidebar()" class="text-slate-600 hover:text-emerald-700 text-lg p-2 rounded-xl hover:bg-slate-100 transition cursor-pointer" title="Buka/Tutup Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                     <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Utama</h2>
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full hidden sm:inline-block">Kota Ambon</span>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
@@ -145,10 +144,8 @@
                 </div>
             </header>
 
-            <!-- CONTENT VIEWPORT -->
             <main class="flex-1 overflow-y-auto p-8 bg-slate-50 relative">
 
-                <!-- NOTIFICATION MODAL CUSTOM -->
                 <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
                     <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
                         <div id="modal-icon" class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
@@ -160,7 +157,6 @@
                     </div>
                 </div>
 
-                <!-- CONFIG GOOGLE SCRIPT URL MODAL -->
                 <div id="config-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
                     <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
                         <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center space-x-2">
@@ -181,7 +177,6 @@
                     </div>
                 </div>
 
-                <!-- TAB 1: DASHBOARD -->
                 <section id="tab-dashboard" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
@@ -222,7 +217,7 @@
                         </div>
                     </div>
 
-                    <!-- 4 PIE CHARTS SECTION -->
+                    <!-- Diagram Status Keamanan (Pie/Doughnut) -->
                     <div class="space-y-3">
                         <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
                             <i class="fa-solid fa-chart-pie text-emerald-600"></i>
@@ -247,9 +242,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Diagram Batang Perbandingan Aman vs Tidak Aman per Kategori Input -->
+                    <div class="space-y-3 pt-2">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-column text-emerald-600"></i>
+                            <span>Grafik Perbandingan Status Aman & Tidak Aman per Kategori Input</span>
+                        </h3>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="h-72 w-full flex items-center justify-center relative">
+                                <canvas id="barTotalInput"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- TAB 2: GUDANG PSAT -->
                 <section id="tab-gudang" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -311,7 +318,6 @@
                     </div>
                 </section>
 
-                <!-- TAB 3: LABEL PSAT -->
                 <section id="tab-label" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -389,7 +395,6 @@
                     </div>
                 </section>
 
-                <!-- TAB 4: UJI PESTISIDA -->
                 <section id="tab-pestisida" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -449,7 +454,6 @@
                     </div>
                 </section>
 
-                <!-- TAB 5: UJI FORMALIN -->
                 <section id="tab-formalin" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
@@ -509,14 +513,19 @@
                     </div>
                 </section>
 
-                <!-- TAB 6: DATA PENGAWASAN (REKAP) -->
                 <section id="tab-rekap" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                        <div class="flex items-center justify-between">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                             <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
                                 <i class="fa-solid fa-table-list text-emerald-600"></i>
                                 <span>Rekapitulasi Seluruh Data Pengawasan</span>
                             </h3>
+                            <div class="relative w-full sm:w-72">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                                </span>
+                                <input type="text" id="search-rekap" onkeyup="filterRekapTable()" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-3 py-2 text-xs focus:outline-emerald-600" placeholder="Cari berdasarkan petugas, lokasi, dll...">
+                            </div>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse text-sm">
@@ -540,12 +549,9 @@
         </div>
     </div>
 
-    <!-- SCRIPT UTAMA & FETCH LOGIC -->
     <script>
-        // Mengambil atau inisialisasi URL Google Apps Script Web App
-        let SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxQb6dD2ysWx_RL4P5S5WUXuqOw86Qk1PjNgsRIqW1Env2dObN5Tcomw-q9NQha7lBKog/exec";
+        let SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQb6dD2ysWx_RL4P5S5WUXuqOw86Qk1PjNgsRIqW1Env2dObN5Tcomw-q9NQha7lBKog/exec";
 
-        // Global State Data Lokal
         let appData = {
             gudang: [],
             label: [],
@@ -553,11 +559,10 @@
             formalin: []
         };
 
-        let chartGudang = null, chartLabel = null, chartPestisida = null, chartFormalin = null;
+        let chartGudang = null, chartLabel = null, chartPestisida = null, chartFormalin = null, chartBarTotal = null;
 
         window.onload = function() {
             if (!SCRIPT_URL) {
-                // Tampilkan modal konfigurasi URL jika belum diatur
                 document.getElementById('config-modal').classList.remove('hidden');
             } else {
                 document.getElementById('input-script-url').value = SCRIPT_URL;
@@ -565,7 +570,12 @@
             }
         };
 
-        // --- SISTEM AUTENTIKASI ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-ml-64');
+            sidebar.classList.toggle('hidden');
+        }
+
         function handleLogin(e) {
             e.preventDefault();
             const user = document.getElementById('login-username').value;
@@ -612,12 +622,11 @@
             document.getElementById('login-container').classList.remove('hidden');
         }
 
-        // --- MANAJEMEN URL CONFIG ---
         function openConfigModal() {
             document.getElementById('config-modal').classList.remove('hidden');
         }
         function closeConfigModal() {
-            if(!SCRIPT_URL) return; // Wajib isi jika belum ada
+            if(!SCRIPT_URL) return;
             document.getElementById('config-modal').classList.add('hidden');
         }
         function saveScriptUrl() {
@@ -632,7 +641,6 @@
             syncFromCloud();
         }
 
-        // --- NAVIGASI TAB ---
         function switchTab(tabId) {
             const tabs = ['dashboard', 'gudang', 'label', 'pestisida', 'formalin', 'rekap'];
             tabs.forEach(t => {
@@ -663,7 +671,6 @@
             document.getElementById('page-title').innerText = titles[tabId] || 'Dashboard';
         }
 
-        // --- SINKRONISASI DATA DARI CLOUD (GET) ---
         function syncFromCloud() {
             if(!SCRIPT_URL) return;
             fetch(SCRIPT_URL)
@@ -681,7 +688,6 @@
                 .catch(err => console.error("Gagal sinkronisasi data:", err));
         }
 
-        // --- KIRIM DATA KE CLOUD (POST) ---
         function sendDataToServer(sheetName, formData, formElement) {
             fetch(SCRIPT_URL, {
                 method: "POST",
@@ -692,7 +698,7 @@
             .then(() => {
                 showModal("Berhasil", "Data pengawasan berhasil disimpan ke Google Spreadsheet.");
                 if(formElement) formElement.reset();
-                setTimeout(syncFromCloud, 1500); // Tarik data terbaru setelah simpan
+                setTimeout(syncFromCloud, 1500);
             })
             .catch(err => {
                 showModal("Error", "Gagal mengirim data ke server.", "rose");
@@ -700,7 +706,6 @@
             });
         }
 
-        // --- HANDLER FORM SUBMIT ---
         function handleGudangSubmit(e) {
             e.preventDefault();
             const form = e.target;
@@ -771,7 +776,6 @@
             sendDataToServer("Formalin", data, form);
         }
 
-        // --- STATISTIK & RENDER DASHBOARD ---
         function updateDashboardStats() {
             const totalGudang = appData.gudang.length;
             const totalLabel = appData.label.length;
@@ -783,22 +787,18 @@
             let tmsCount = 0;
             let kecamatanMap = {};
 
-            // Hitung Gudang
             appData.gudang.forEach(item => {
                 if(item.kesimpulan === 'Aman') amanCount++; else tmsCount++;
                 if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
             });
-            // Hitung Label (Asumsi Label lolos jika lengkap atau anggap aman secara default jika terekap)
             appData.label.forEach(item => {
                 amanCount++; 
                 if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
             });
-            // Hitung Pestisida
             appData.pestisida.forEach(item => {
                 if(item.status === 'Aman') amanCount++; else tmsCount++;
                 if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
             });
-            // Hitung Formalin
             appData.formalin.forEach(item => {
                 if(item.status === 'Aman') amanCount++; else tmsCount++;
                 if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
@@ -819,9 +819,7 @@
             document.getElementById('stat-fokus').innerText = topKecamatan;
         }
 
-        // --- RENDER PIE CHARTS ---
         function renderCharts() {
-            // Helper hitung status Aman vs Tidak Aman
             const getCounts = (arr, keyField) => {
                 let aman = 0, tms = 0;
                 arr.forEach(i => {
@@ -833,7 +831,7 @@
             };
 
             const gCounts = getCounts(appData.gudang, 'kesimpulan');
-            const lCounts = [appData.label.length, 0]; // Label terekap
+            const lCounts = [appData.label.length, 0];
             const pCounts = getCounts(appData.pestisida, 'status');
             const fCounts = getCounts(appData.formalin, 'status');
 
@@ -862,9 +860,59 @@
             chartLabel = createPie('pieLabel', chartLabel, lCounts);
             chartPestisida = createPie('piePestisida', chartPestisida, pCounts);
             chartFormalin = createPie('pieFormalin', chartFormalin, fCounts);
+
+            const countStat = (arr, field) => {
+                let aman = 0, tms = 0;
+                arr.forEach(i => {
+                    let val = i[field] || i.status || i.kesimpulan;
+                    if(val === 'Aman' || val === 'Memenuhi Syarat' || val === 'Lengkap') aman++;
+                    else tms++;
+                });
+                return { aman, tms };
+            };
+
+            const gStat = countStat(appData.gudang, 'kesimpulan');
+            const lStat = { aman: appData.label.length, tms: 0 };
+            const pStat = countStat(appData.pestisida, 'status');
+            const fStat = countStat(appData.formalin, 'status');
+
+            const ctxBar = document.getElementById('barTotalInput').getContext('2d');
+            if(chartBarTotal) chartBarTotal.destroy();
+            chartBarTotal = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Gudang PSAT', 'Label PSAT', 'Uji Pestisida', 'Uji Formalin (PSAH)'],
+                    datasets: [
+                        {
+                            label: 'Aman / Memenuhi Syarat',
+                            data: [gStat.aman, lStat.aman, pStat.aman, fStat.aman],
+                            backgroundColor: '#10b981',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Tidak Aman / Tidak Memenuhi Syarat',
+                            data: [gStat.tms, lStat.tms, pStat.tms, fStat.tms],
+                            backgroundColor: '#f43f5e',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 }
+                        }
+                    }
+                }
+            });
         }
 
-        // --- RENDER TABEL REKAP & TERBARU ---
         function renderRecentTables() {
             let allRows = [];
             appData.gudang.forEach(i => allRows.push({ kat: 'Gudang PSAT', waktu: i.waktu, petugas: i.petugas, info: i.lokasi, kec: i.kecamatan, status: i.kesimpulan }));
@@ -872,11 +920,15 @@
             appData.pestisida.forEach(i => allRows.push({ kat: 'Uji Pestisida', waktu: i.waktu, petugas: i.petugas, info: i.nama_komoditas, kec: i.kecamatan, status: i.status }));
             appData.formalin.forEach(i => allRows.push({ kat: 'Uji Formalin', waktu: i.waktu, petugas: i.petugas, info: i.nama_psah, kec: i.kecamatan, status: i.status }));
 
-            // Urutkan berdasarkan waktu terbaru
             allRows.sort((a,b) => new Date(b.waktu) - new Date(a.waktu));
 
+            window.allRekapRows = allRows;
+            displayRekapRows(allRows);
+        }
+
+        function displayRekapRows(rows) {
             let rekapHtml = '';
-            allRows.forEach(row => {
+            rows.forEach(row => {
                 let badgeColor = (row.status === 'Aman' || row.status === 'Lengkap' || row.status === 'Memenuhi Syarat') ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
                 rekapHtml += `
                     <tr class="border-b border-slate-100 hover:bg-slate-50/50">
@@ -891,10 +943,27 @@
             });
 
             const rekapBody = document.getElementById('rekap-table-body');
-            if(rekapBody) rekapBody.innerHTML = rekapHtml || `<tr><td colspan="6" class="p-4 text-center text-xs text-slate-400">Belum ada data pengawasan.</td></tr>`;
+            if(rekapBody) rekapBody.innerHTML = rekapHtml || `<tr><td colspan="6" class="p-4 text-center text-xs text-slate-400">Tidak ada data pengawasan yang ditemukan.</td></tr>`;
         }
 
-        // --- MODAL NOTIFIKASI ---
+        function filterRekapTable() {
+            const query = document.getElementById('search-rekap').value.toLowerCase();
+            if (!window.allRekapRows) return;
+
+            const filtered = window.allRekapRows.filter(row => {
+                return (
+                    (row.kat && row.kat.toLowerCase().includes(query)) ||
+                    (row.waktu && row.waktu.toLowerCase().includes(query)) ||
+                    (row.petugas && row.petugas.toLowerCase().includes(query)) ||
+                    (row.info && row.info.toLowerCase().includes(query)) ||
+                    (row.kec && row.kec.toLowerCase().includes(query)) ||
+                    (row.status && row.status.toLowerCase().includes(query))
+                );
+            });
+
+            displayRekapRows(filtered);
+        }
+
         function showModal(title, message, type='emerald') {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-message').innerText = message;
