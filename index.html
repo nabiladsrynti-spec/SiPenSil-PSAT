@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SiPenSil Pengawasan Keamanan PSAT - DPKP Kota Ambon</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
@@ -17,58 +14,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
 
-    <!-- LOGIN SCREEN CONTAINER -->
-    <div id="login-container" class="fixed inset-0 bg-emerald-950 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-emerald-100 relative overflow-hidden">
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-100 rounded-full blur-2xl pointer-events-none"></div>
-            
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-emerald-800 text-amber-400 font-bold text-2xl rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
-                    <i class="fa-solid fa-seedling"></i>
-                </div>
-                <h1 class="text-2xl font-bold text-slate-800 tracking-tight">SiPenSil</h1>
-                <p class="text-xs text-slate-500 mt-1">Pengawasan Keamanan PSAT - DPKP Kota Ambon</p>
-            </div>
-
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Username</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                        <input type="text" id="login-username" required class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-emerald-600" placeholder="Masukkan username">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                            <i class="fa-solid fa-lock"></i>
-                        </span>
-                        <input type="password" id="login-password" required class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-3 py-2.5 text-sm focus:outline-emerald-600" placeholder="••••••••">
-                    </div>
-                </div>
-
-                <button type="submit" id="btn-login-submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl text-sm transition shadow-lg cursor-pointer flex items-center justify-center space-x-2">
-                    <span>Masuk ke Dashboard</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </button>
-
-                <p id="login-error" class="text-xs text-rose-600 text-center font-medium mt-2 min-h-[16px]"></p>
-            </form>
-
-            
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER (Disembunyikan Sebelum Login) -->
-    <div id="app-container" class="hidden flex-1 flex h-screen overflow-hidden w-full">
-
-        <!-- SIDEBAR -->
-        <aside class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20">
-            <div class="p-5 border-b border-emerald-800 flex items-center space-x-3">
+    <aside id="sidebar" class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl z-20 transition-all duration-300">
+        <div class="p-5 border-b border-emerald-800 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
                 <div class="bg-emerald-700 p-2.5 rounded-xl text-amber-400 font-bold text-xl shadow-inner">
                     <i class="fa-solid fa-seedling"></i>
                 </div>
@@ -77,839 +25,465 @@
                     <p class="text-[11px] text-emerald-300">Pengawasan Keamanan PSAT</p>
                 </div>
             </div>
+            <button onclick="toggleSidebar()" class="text-emerald-300 hover:text-white md:hidden cursor-pointer">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md cursor-pointer">
-                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                    <span>Dashboard</span>
-                </button>
-                
-                <div class="pt-2 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Menu Pengawasan</div>
-                
-                <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-warehouse w-5 text-center"></i>
-                    <span>Gudang PSAT</span>
-                </button>
-                <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-tags w-5 text-center"></i>
-                    <span>Label PSAT</span>
-                </button>
-                <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-flask w-5 text-center"></i>
-                    <span>Uji Pestisida</span>
-                </button>
-                <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-shield-halved w-5 text-center"></i>
-                    <span>Uji Formalin (PSAH)</span>
-                </button>
-                <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
-                    <i class="fa-solid fa-table-list w-5 text-center"></i>
-                    <span>Data Pengawasan</span>
-                </button>
-
-                <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Database</div>
-                
-                <button onclick="openConfigModal()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50 cursor-pointer">
-                    <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
-                    <span>Spreadsheet URL</span>
-                </button>
-            </nav>
-
-            <div class="p-4 border-t border-emerald-800/80 bg-emerald-950/40 text-xs text-emerald-300/80 flex items-center justify-between">
-                <div>
-                    <p class="font-semibold text-emerald-200">DPKP Kota Ambon</p>
-                    <p>Pemerintah Kota Ambon</p>
-                </div>
-                <span class="inline-block w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" title="Sistem Aktif"></span>
-            </div>
-        </aside>
-
-        <!-- MAIN CONTENT CONTAINER -->
-        <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md cursor-pointer">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                <span>Dashboard</span>
+            </button>
             
-            <!-- HEADER -->
-            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-xs z-10">
-                <div class="flex items-center space-x-4">
-                    <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Utama</h2>
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
+            <div class="pt-2 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Menu Pengawasan</div>
+            
+            <button onclick="switchTab('gudang')" id="nav-gudang" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-warehouse w-5 text-center"></i>
+                <span>Gudang PSAT</span>
+            </button>
+            <button onclick="switchTab('label')" id="nav-label" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-tags w-5 text-center"></i>
+                <span>Label PSAT</span>
+            </button>
+            <button onclick="switchTab('pestisida')" id="nav-pestisida" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-flask w-5 text-center"></i>
+                <span>Uji Pestisida</span>
+            </button>
+            <button onclick="switchTab('formalin')" id="nav-formalin" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-shield-halved w-5 text-center"></i>
+                <span>Uji Formalin (PSAH)</span>
+            </button>
+            <button onclick="switchTab('rekap')" id="nav-rekap" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer">
+                <i class="fa-solid fa-table-list w-5 text-center"></i>
+                <span>Data Pengawasan</span>
+            </button>
+
+            <div class="pt-4 pb-1 text-xs font-semibold text-emerald-400 uppercase tracking-wider px-4">Database</div>
+            
+            <a href="https://docs.google.com/spreadsheets/d/1KOJQI_w0HtZxnXYks1EoAm1IQyopS06EdRrh7-XC4mo/edit?gid=1012408133#gid=1012408133" target="_blank" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-100 bg-emerald-800/40 hover:bg-emerald-800 hover:text-white border border-emerald-700/50">
+                <i class="fa-brands fa-google-drive w-5 text-center text-emerald-400"></i>
+                <span>Spreadsheet</span>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-emerald-800/80 bg-emerald-950/40 text-xs text-emerald-300/80 flex items-center justify-between">
+            <div>
+                <p class="font-semibold text-emerald-200">DPKP Kota Ambon</p>
+                <p>Pemerintah Kota Ambon</p>
+            </div>
+            <span class="inline-block w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" title="Sistem Aktif"></span>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-xs z-10">
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-emerald-700 transition cursor-pointer" title="Buka/Tutup Sidebar">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Utama</h2>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full">Kota Ambon</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Refresh</span>
+                </button>
+                <div class="w-9 h-9 rounded-full bg-emerald-800 text-white font-bold flex items-center justify-center text-sm shadow">
+                    DA
                 </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="syncFromCloud()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer">
-                        <i class="fa-solid fa-rotate"></i>
-                        <span>Refresh Data</span>
-                    </button>
-                    <button onclick="handleLogout()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer" title="Keluar Akun">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Logout</span>
-                    </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-slate-50 relative">
+
+            <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
+                <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
+                    <div id="modal-icon" class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-1">Berhasil</h3>
+                    <p id="modal-message" class="text-sm text-slate-600 mb-6">Data berhasil disimpan.</p>
+                    <button onclick="closeModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition cursor-pointer">Tutup</button>
                 </div>
-            </header>
+            </div>
 
-            <!-- CONTENT VIEWPORT -->
-            <main class="flex-1 overflow-y-auto p-8 bg-slate-50 relative">
-
-                <!-- NOTIFICATION MODAL CUSTOM -->
-                <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
-                    <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
-                        <div id="modal-icon" class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                            <i class="fa-solid fa-check"></i>
+            <section id="tab-dashboard" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-clipboard-check"></i>
                         </div>
-                        <h3 id="modal-title" class="text-lg font-bold text-slate-800 mb-1">Berhasil</h3>
-                        <p id="modal-message" class="text-sm text-slate-600 mb-6">Data berhasil disimpan.</p>
-                        <button onclick="closeModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition cursor-pointer">Tutup</button>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">Total Pengawasan</p>
+                            <h3 id="stat-total" class="text-2xl font-bold text-slate-800">0</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-shield-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">Total Memenuhi Syarat / Aman</p>
+                            <h3 id="stat-ms" class="text-2xl font-bold text-emerald-600">0</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">Tidak Memenuhi Syarat</p>
+                            <h3 id="stat-tms" class="text-2xl font-bold text-rose-600">0</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">Fokus Wilayah Teratas</p>
+                            <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">Sirimau</h3>
+                        </div>
                     </div>
                 </div>
 
-                <!-- CONFIG GOOGLE SCRIPT URL MODAL -->
-                <div id="config-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
-                    <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
-                        <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center space-x-2">
-                            <i class="fa-brands fa-google-drive text-emerald-600"></i>
-                            <span>Koneksi Google Spreadsheet</span>
-                        </h3>
-                        <p class="text-xs text-slate-500 mb-4">Masukkan URL Web App Google Apps Script Anda agar data tersimpan langsung ke Google Spreadsheet.</p>
-                        <div class="space-y-3 mb-6">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Google Apps Script Web App URL</label>
-                                <input type="text" id="input-script-url" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-emerald-600" placeholder="https://script.google.com/macros/s/.../exec">
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <button onclick="saveScriptUrl()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-xl text-sm transition cursor-pointer">Simpan URL</button>
-                            <button onclick="closeConfigModal()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 rounded-xl text-sm transition cursor-pointer">Batal</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="space-y-6">
+                    <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                        <span>Grafik Status Keamanan & Persentase Masing-Masing Inputan</span>
+                    </h3>
 
-                <!-- TAB 1: DASHBOARD -->
-                <section id="tab-dashboard" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-clipboard-check"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-500 font-medium">Total Pengawasan</p>
-                                <h3 id="stat-total" class="text-2xl font-bold text-slate-800">0</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Gudang PSAT</h4>
+                            <div class="h-48 w-full flex items-center justify-center relative">
+                                <canvas id="pieGudang"></canvas>
                             </div>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-shield-check"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-500 font-medium">Memenuhi Syarat / Aman</p>
-                                <h3 id="stat-ms" class="text-2xl font-bold text-emerald-600">0</h3>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Pengawasan Label PSAT</h4>
+                            <div class="h-48 w-full flex items-center justify-center relative">
+                                <canvas id="pieLabel"></canvas>
                             </div>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-500 font-medium">Tidak Memenuhi Syarat</p>
-                                <h3 id="stat-tms" class="text-2xl font-bold text-rose-600">0</h3>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida PSAT</h4>
+                            <div class="h-48 w-full flex items-center justify-center relative">
+                                <canvas id="piePestisida"></canvas>
                             </div>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-map-location-dot"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-500 font-medium">Fokus Wilayah Teratas</p>
-                                <h3 id="stat-fokus" class="text-lg font-bold text-slate-800 truncate max-w-[140px]">-</h3>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
+                            <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin PSAH</h4>
+                            <div class="h-48 w-full flex items-center justify-center relative">
+                                <canvas id="pieFormalin"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 4 PIE CHARTS SECTION -->
-                    <div class="space-y-3">
-                        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
-                            <i class="fa-solid fa-chart-pie text-emerald-600"></i>
-                            <span>Diagram Status Keamanan per Kategori Pengawasan</span>
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Gudang PSAT</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieGudang"></canvas></div>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Label PSAT</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieLabel"></canvas></div>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Pestisida</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="piePestisida"></canvas></div>
-                            </div>
-                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center">
-                                <h4 class="font-bold text-xs text-slate-700 mb-3 text-center">Uji Formalin (PSAH)</h4>
-                                <div class="h-48 w-full flex items-center justify-center relative"><canvas id="pieFormalin"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 2: GUDANG PSAT -->
-                <section id="tab-gudang" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                            <i class="fa-solid fa-warehouse text-emerald-600"></i>
-                            <span>Formulir Pengawasan Gudang PSAT</span>
-                        </h3>
-                        <form id="form-gudang" onsubmit="handleGudangSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
-                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang</label>
-                                <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Gudang Beras Passo">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Sirimau">Sirimau</option>
-                                    <option value="Nusaniwe">Nusaniwe</option>
-                                    <option value="Baguala">Baguala</option>
-                                    <option value="Teluk Ambon">Teluk Ambon</option>
-                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hygen</label>
-                                <select name="hygen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Memenuhi Syarat">Memenuhi Syarat</option>
-                                    <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Sanitasi</label>
-                                <select name="sanitasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Memenuhi Syarat">Memenuhi Syarat</option>
-                                    <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kesimpulan</label>
-                                <select name="kesimpulan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Aman">Aman</option>
-                                    <option value="Tidak Aman">Tidak Aman</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan...">
-                            </div>
-                            <div class="md:col-span-2 flex justify-end">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Gudang</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- TAB 3: LABEL PSAT -->
-                <section id="tab-label" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                            <i class="fa-solid fa-tags text-emerald-600"></i>
-                            <span>Formulir Pengawasan Label PSAT</span>
-                        </h3>
-                        <form id="form-label" onsubmit="handleLabelSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
-                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi Pengawasan</label>
-                                <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Pasar Mardika">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Sirimau">Sirimau</option>
-                                    <option value="Nusaniwe">Nusaniwe</option>
-                                    <option value="Baguala">Baguala</option>
-                                    <option value="Teluk Ambon">Teluk Ambon</option>
-                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAT</label>
-                                <input type="text" required name="jenis" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Beras / Buah / Sayur">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Dagang</label>
-                                <input type="text" required name="dagang" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama produk">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Produsen</label>
-                                <input type="text" required name="produsen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Produsen / Asal">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">No Izin Edar</label>
-                                <input type="text" required name="izin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nomor Izin">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Netto</label>
-                                <select name="netto" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Ada">Ada</option>
-                                    <option value="Tidak">Tidak</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Produksi</label>
-                                <select name="tgl_produksi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Ada">Ada</option>
-                                    <option value="Tidak">Tidak</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Kadaluwarsa</label>
-                                <select name="tgl_kadaluwarsa" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Ada">Ada</option>
-                                    <option value="Tidak">Tidak</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
-                            </div>
-                            <div class="md:col-span-3 flex justify-end">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Label</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- TAB 4: UJI PESTISIDA -->
-                <section id="tab-pestisida" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                            <i class="fa-solid fa-flask text-emerald-600"></i>
-                            <span>Formulir Uji Pestisida PSAT</span>
-                        </h3>
-                        <form id="form-pestisida" onsubmit="handlePestisidaSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Uji</label>
-                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Komoditas</label>
-                                <input type="text" required name="jenis_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Sayuran / Buah">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Komoditas</label>
-                                <input type="text" required name="nama_komoditas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Cabai Keriting">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal / Lokasi</label>
-                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Asal produk">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Sirimau">Sirimau</option>
-                                    <option value="Nusaniwe">Nusaniwe</option>
-                                    <option value="Baguala">Baguala</option>
-                                    <option value="Teluk Ambon">Teluk Ambon</option>
-                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Rapid Test</label>
-                                <input type="text" required name="hasil_rapid" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Negatif / Residu Rendah">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status</label>
-                                <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Aman">Aman</option>
-                                    <option value="Tidak Aman">Tidak Aman</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
-                            </div>
-                            <div class="md:col-span-2 flex justify-end">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Pestisida</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- TAB 5: UJI FORMALIN -->
-                <section id="tab-formalin" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
-                            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-                            <span>Formulir Uji Formalin PSAH</span>
-                        </h3>
-                        <form id="form-formalin" onsubmit="handleFormalinSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
-                                <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Nama petugas">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Uji</label>
-                                <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis PSAH</label>
-                                <input type="text" required name="jenis_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Ikan / Daging / Olahan">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama PSAH</label>
-                                <input type="text" required name="nama_psah" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Ikan Tuna Segar">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Asal / Pasar</label>
-                                <input type="text" required name="asal" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Pasar / Tempat asal">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
-                                <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Sirimau">Sirimau</option>
-                                    <option value="Nusaniwe">Nusaniwe</option>
-                                    <option value="Baguala">Baguala</option>
-                                    <option value="Teluk Ambon">Teluk Ambon</option>
-                                    <option value="Leitimur Selatan">Leitimur Selatan</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Hasil Formalin</label>
-                                <input type="text" required name="hasil_formalin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Negatif / Positif">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Status</label>
-                                <select name="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
-                                    <option value="Aman">Aman</option>
-                                    <option value="Tidak Aman">Tidak Aman</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
-                                <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan...">
-                            </div>
-                            <div class="md:col-span-2 flex justify-end">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Uji Formalin</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- TAB 6: DATA PENGAWASAN (REKAP) -->
-                <section id="tab-rekap" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
                         <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
-                                <i class="fa-solid fa-table-list text-emerald-600"></i>
-                                <span>Rekapitulasi Seluruh Data Pengawasan</span>
-                            </h3>
+                            <h4 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-chart-column text-emerald-600"></i>
+                                <span>Diagram Batang Persentase Hasil (Memenuhi Syarat / Aman vs Tidak)</span>
+                            </h4>
+                            <span class="text-xs text-slate-400">Dalam Persen (%)</span>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
-                                        <th class="p-3">Kategori</th>
-                                        <th class="p-3">Waktu</th>
-                                        <th class="p-3">Petugas</th>
-                                        <th class="p-3">Lokasi / Komoditas</th>
-                                        <th class="p-3">Kecamatan</th>
-                                        <th class="p-3">Status / Kesimpulan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="rekap-table-body"></tbody>
-                            </table>
+                        <div class="h-72 w-full flex items-center justify-center relative">
+                            <canvas id="barPercentageChart"></canvas>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-            </main>
-        </div>
+            <section id="tab-gudang" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-warehouse text-emerald-600"></i>
+                        <span>Formulir Pengawasan Gudang PSAT</span>
+                    </h3>
+                    <form id="form-gudang" onsubmit="handleGudangSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Petugas</label>
+                            <input type="text" required name="petugas" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Masukkan nama petugas pemeriksa">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Waktu Pengawasan</label>
+                            <input type="datetime-local" required name="waktu" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Lokasi / Gudang Pengawasan</label>
+                            <input type="text" required name="lokasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Cth: Gudang Beras Passo">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kecamatan</label>
+                            <select name="kecamatan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                <option value="Sirimau">Sirimau</option>
+                                <option value="Nusaniwe">Nusaniwe</option>
+                                <option value="Baguala">Baguala</option>
+                                <option value="Teluk Ambon">Teluk Ambon</option>
+                                <option value="Leitimur Selatan">Leitimur Selatan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Hygen</label>
+                            <select name="hygen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                <option value="Memenuhi Syarat">Memenuhi Syarat</option>
+                                <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Sanitasi</label>
+                            <select name="sanitasi" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                <option value="Memenuhi Syarat">Memenuhi Syarat</option>
+                                <option value="Tidak Memenuhi Syarat">Tidak Memenuhi Syarat</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Status Kesimpulan</label>
+                            <select name="kesimpulan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600">
+                                <option value="Aman">Aman</option>
+                                <option value="Tidak Aman">Tidak Aman</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
+                            <input type="text" name="catatan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-emerald-600" placeholder="Catatan tambahan gudang...">
+                        </div>
+                        <div class="md:col-span-2 flex justify-end">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition cursor-pointer shadow">Simpan Data Gudang</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="tab-label" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-tags text-emerald-600"></i>
+                        <span>Formulir Pengawasan Label PSAT</span>
+                    </h3>
+                    <p class="text-sm text-slate-500">Formulir input Label PSAT tersedia di sini.</p>
+                </div>
+            </section>
+
+            <section id="tab-pestisida" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-flask text-emerald-600"></i>
+                        <span>Formulir Pengujian Pestisida PSAT</span>
+                    </h3>
+                    <p class="text-sm text-slate-500">Formulir input Uji Pestisida tersedia di sini.</p>
+                </div>
+            </section>
+
+            <section id="tab-formalin" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+                        <span>Formulir Uji Formalin (PSAH)</span>
+                    </h3>
+                    <p class="text-sm text-slate-500">Formulir input Uji Formalin tersedia di sini.</p>
+                </div>
+            </section>
+
+            <section id="tab-rekap" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-table-list text-emerald-600"></i>
+                            <span>Pusat Data Pengawasan Keseluruhan</span>
+                        </h3>
+                        <div class="relative w-full md:w-72">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                            <input type="text" id="searchInput" onkeyup="filterTableData()" placeholder="Cari petugas, lokasi, kategori..." class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-emerald-600">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-500 bg-slate-50">
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Petugas</th>
+                                    <th class="p-3">Lokasi & Kecamatan</th>
+                                    <th class="p-3">Status / Kesimpulan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="full-data-body">
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                                    <td class="p-3 font-semibold text-emerald-700">Gudang PSAT</td>
+                                    <td class="p-3 text-slate-600">31/08/2026 10:00</td>
+                                    <td class="p-3 text-slate-800">Budi Santoso</td>
+                                    <td class="p-3 text-slate-600">Gudang Passo (Baguala)</td>
+                                    <td class="p-3"><span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">Aman</span></td>
+                                </tr>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                                    <td class="p-3 font-semibold text-emerald-700">Label PSAT</td>
+                                    <td class="p-3 text-slate-600">30/08/2026 14:30</td>
+                                    <td class="p-3 text-slate-800">Siti Rahma</td>
+                                    <td class="p-3 text-slate-600">Pasar Mardika (Sirimau)</td>
+                                    <td class="p-3"><span class="bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full text-xs font-semibold">Tidak Aman</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
-    <!-- SCRIPT UTAMA & FETCH LOGIC -->
     <script>
-        // Mengambil atau inisialisasi URL Google Apps Script Web App
-        let SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxQb6dD2ysWx_RL4P5S5WUXuqOw86Qk1PjNgsRIqW1Env2dObN5Tcomw-q9NQha7lBKog/exec";
-
-        // Global State Data Lokal
-        let appData = {
-            gudang: [],
-            label: [],
-            pestisida: [],
-            formalin: []
-        };
-
-        let chartGudang = null, chartLabel = null, chartPestisida = null, chartFormalin = null;
-
-        window.onload = function() {
-            if (!SCRIPT_URL) {
-                // Tampilkan modal konfigurasi URL jika belum diatur
-                document.getElementById('config-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('input-script-url').value = SCRIPT_URL;
-                syncFromCloud();
-            }
-        };
-
-        // --- SISTEM AUTENTIKASI ---
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('login-username').value;
-            const pass = document.getElementById('login-password').value;
-            const errEl = document.getElementById('login-error');
-            const btn = document.getElementById('btn-login-submit');
-
-            if (!SCRIPT_URL) {
-                errEl.innerText = "URL Google Spreadsheet belum dikonfigurasi!";
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Memproses...</span>`;
-
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ action: "login", username: user, password: pass })
-            })
-            .then(res => res.json())
-            .then(res => {
-                btn.disabled = false;
-                btn.innerHTML = `<span>Masuk ke Dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
-                
-                if (res.status === "success") {
-                    document.getElementById('login-container').classList.add('hidden');
-                    document.getElementById('app-container').classList.remove('hidden');
-                    syncFromCloud();
-                } else {
-                    errEl.innerText = res.message || "Login gagal!";
-                }
-            })
-            .catch(err => {
-                btn.disabled = false;
-                btn.innerHTML = `<span>Masuk ke Dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
-                errEl.innerText = "Gagal terhubung ke server.";
-                console.error(err);
-            });
-        }
-
-        function handleLogout() {
-            document.getElementById('app-container').classList.add('hidden');
-            document.getElementById('login-container').classList.remove('hidden');
-        }
-
-        // --- MANAJEMEN URL CONFIG ---
-        function openConfigModal() {
-            document.getElementById('config-modal').classList.remove('hidden');
-        }
-        function closeConfigModal() {
-            if(!SCRIPT_URL) return; // Wajib isi jika belum ada
-            document.getElementById('config-modal').classList.add('hidden');
-        }
-        function saveScriptUrl() {
-            const val = document.getElementById('input-script-url').value.trim();
-            if(!val) {
-                alert("URL tidak boleh kosong!");
-                return;
-            }
-            SCRIPT_URL = val;
-            localStorage.setItem('sipensil_script_url', SCRIPT_URL);
-            document.getElementById('config-modal').classList.add('hidden');
-            syncFromCloud();
-        }
-
-        // --- NAVIGASI TAB ---
+        // Tab Switching
         function switchTab(tabId) {
             const tabs = ['dashboard', 'gudang', 'label', 'pestisida', 'formalin', 'rekap'];
             tabs.forEach(t => {
-                const el = document.getElementById('tab-' + t);
-                const nav = document.getElementById('nav-' + t);
-                if(el) el.classList.add('hidden');
-                if(nav) {
-                    nav.classList.remove('bg-emerald-800', 'text-white', 'shadow-md');
-                    nav.classList.add('text-emerald-200', 'hover:bg-emerald-800/60', 'hover:text-white');
+                document.getElementById('tab-' + t).classList.add('hidden');
+                const navBtn = document.getElementById('nav-' + t);
+                if(navBtn) {
+                    navBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all text-emerald-200 hover:bg-emerald-800/60 hover:text-white cursor-pointer";
                 }
             });
 
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             const activeNav = document.getElementById('nav-' + tabId);
             if(activeNav) {
-                activeNav.classList.add('bg-emerald-800', 'text-white', 'shadow-md');
-                activeNav.classList.remove('text-emerald-200', 'hover:bg-emerald-800/60', 'hover:text-white');
+                activeNav.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all bg-emerald-800 text-white shadow-md cursor-pointer";
             }
-
-            const titles = {
-                dashboard: 'Dashboard Utama',
-                gudang: 'Pengawasan Gudang PSAT',
-                label: 'Pengawasan Label PSAT',
-                pestisida: 'Uji Residu Pestisida',
-                formalin: 'Uji Formalin PSAH',
-                rekap: 'Data Rekapitulasi Pengawasan'
-            };
-            document.getElementById('page-title').innerText = titles[tabId] || 'Dashboard';
         }
 
-        // --- SINKRONISASI DATA DARI CLOUD (GET) ---
-        function syncFromCloud() {
-            if(!SCRIPT_URL) return;
-            fetch(SCRIPT_URL)
-                .then(res => res.json())
-                .then(data => {
-                    appData.gudang = data.gudang || [];
-                    appData.label = data.label || [];
-                    appData.pestisida = data.pestisida || [];
-                    appData.formalin = data.formalin || [];
-
-                    updateDashboardStats();
-                    renderCharts();
-                    renderRecentTables();
-                })
-                .catch(err => console.error("Gagal sinkronisasi data:", err));
+        // Toggle Sidebar Buka-Tutup
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-ml-64');
         }
 
-        // --- KIRIM DATA KE CLOUD (POST) ---
-        function sendDataToServer(sheetName, formData, formElement) {
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ sheet: sheetName, data: formData })
-            })
-            .then(() => {
-                showModal("Berhasil", "Data pengawasan berhasil disimpan ke Google Spreadsheet.");
-                if(formElement) formElement.reset();
-                setTimeout(syncFromCloud, 1500); // Tarik data terbaru setelah simpan
-            })
-            .catch(err => {
-                showModal("Error", "Gagal mengirim data ke server.", "rose");
-                console.error(err);
-            });
-        }
+        // Pencarian Data di Menu Data Pengawasan
+        function filterTableData() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('full-data-body');
+            const tr = table.getElementsByTagName('tr');
 
-        // --- HANDLER FORM SUBMIT ---
-        function handleGudangSubmit(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = {
-                waktu: form.waktu.value,
-                petugas: form.petugas.value,
-                lokasi: form.lokasi.value,
-                kecamatan: form.kecamatan.value,
-                hygen: form.hygen.value,
-                sanitasi: form.sanitasi.value,
-                kesimpulan: form.kesimpulan.value,
-                catatan: form.catatan.value
-            };
-            sendDataToServer("Gudang", data, form);
-        }
-
-        function handleLabelSubmit(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = {
-                waktu: form.waktu.value,
-                petugas: form.petugas.value,
-                lokasi: form.lokasi.value,
-                kecamatan: form.kecamatan.value,
-                jenis: form.jenis.value,
-                dagang: form.dagang.value,
-                produsen: form.produsen.value,
-                izin: form.izin.value,
-                netto: form.netto.value,
-                tgl_produksi: form.tgl_produksi.value,
-                tgl_kadaluwarsa: form.tgl_kadaluwarsa.value,
-                catatan: form.catatan.value
-            };
-            sendDataToServer("Label", data, form);
-        }
-
-        function handlePestisidaSubmit(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = {
-                waktu: form.waktu.value,
-                petugas: form.petugas.value,
-                jenis_komoditas: form.jenis_komoditas.value,
-                nama_komoditas: form.nama_komoditas.value,
-                asal: form.asal.value,
-                kecamatan: form.kecamatan.value,
-                hasil_rapid: form.hasil_rapid.value,
-                status: form.status.value,
-                catatan: form.catatan.value
-            };
-            sendDataToServer("Pestisida", data, form);
-        }
-
-        function handleFormalinSubmit(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = {
-                waktu: form.waktu.value,
-                petugas: form.petugas.value,
-                jenis_psah: form.jenis_psah.value,
-                nama_psah: form.nama_psah.value,
-                asal: form.asal.value,
-                kecamatan: form.kecamatan.value,
-                hasil_formalin: form.hasil_formalin.value,
-                status: form.status.value,
-                catatan: form.catatan.value
-            };
-            sendDataToServer("Formalin", data, form);
-        }
-
-        // --- STATISTIK & RENDER DASHBOARD ---
-        function updateDashboardStats() {
-            const totalGudang = appData.gudang.length;
-            const totalLabel = appData.label.length;
-            const totalPest = appData.pestisida.length;
-            const totalForm = appData.formalin.length;
-            const totalAll = totalGudang + totalLabel + totalPest + totalForm;
-
-            let amanCount = 0;
-            let tmsCount = 0;
-            let kecamatanMap = {};
-
-            // Hitung Gudang
-            appData.gudang.forEach(item => {
-                if(item.kesimpulan === 'Aman') amanCount++; else tmsCount++;
-                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
-            });
-            // Hitung Label (Asumsi Label lolos jika lengkap atau anggap aman secara default jika terekap)
-            appData.label.forEach(item => {
-                amanCount++; 
-                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
-            });
-            // Hitung Pestisida
-            appData.pestisida.forEach(item => {
-                if(item.status === 'Aman') amanCount++; else tmsCount++;
-                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
-            });
-            // Hitung Formalin
-            appData.formalin.forEach(item => {
-                if(item.status === 'Aman') amanCount++; else tmsCount++;
-                if(item.kecamatan) kecamatanMap[item.kecamatan] = (kecamatanMap[item.kecamatan] || 0) + 1;
-            });
-
-            let topKecamatan = "-";
-            let maxCount = 0;
-            for(let kec in kecamatanMap) {
-                if(kecamatanMap[kec] > maxCount) {
-                    maxCount = kecamatanMap[kec];
-                    topKecamatan = kec;
+            for (let i = 0; i < tr.length; i++) {
+                let tdText = tr[i].textContent || tr[i].innerText;
+                if (tdText.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
-
-            document.getElementById('stat-total').innerText = totalAll;
-            document.getElementById('stat-ms').innerText = amanCount;
-            document.getElementById('stat-tms').innerText = tmsCount;
-            document.getElementById('stat-fokus').innerText = topKecamatan;
         }
 
-        // --- RENDER PIE CHARTS ---
-        function renderCharts() {
-            // Helper hitung status Aman vs Tidak Aman
-            const getCounts = (arr, keyField) => {
-                let aman = 0, tms = 0;
-                arr.forEach(i => {
-                    let val = i[keyField] || i.status || i.kesimpulan;
-                    if(val === 'Aman' || val === 'Memenuhi Syarat') aman++;
-                    else tms++;
-                });
-                return [aman, tms];
-            };
-
-            const gCounts = getCounts(appData.gudang, 'kesimpulan');
-            const lCounts = [appData.label.length, 0]; // Label terekap
-            const pCounts = getCounts(appData.pestisida, 'status');
-            const fCounts = getCounts(appData.formalin, 'status');
-
-            const createPie = (canvasId, chartInstance, dataVals) => {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                if(chartInstance) chartInstance.destroy();
-                return new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Aman / MS', 'Tidak Aman / TMS'],
-                        datasets: [{
-                            data: dataVals.reduce((a,b)=>a+b,0) === 0 ? [1, 0] : dataVals,
-                            backgroundColor: ['#10b981', '#f43f5e'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
-                    }
-                });
-            };
-
-            chartGudang = createPie('pieGudang', chartGudang, gCounts);
-            chartLabel = createPie('pieLabel', chartLabel, lCounts);
-            chartPestisida = createPie('piePestisida', chartPestisida, pCounts);
-            chartFormalin = createPie('pieFormalin', chartFormalin, fCounts);
-        }
-
-        // --- RENDER TABEL REKAP & TERBARU ---
-        function renderRecentTables() {
-            let allRows = [];
-            appData.gudang.forEach(i => allRows.push({ kat: 'Gudang PSAT', waktu: i.waktu, petugas: i.petugas, info: i.lokasi, kec: i.kecamatan, status: i.kesimpulan }));
-            appData.label.forEach(i => allRows.push({ kat: 'Label PSAT', waktu: i.waktu, petugas: i.petugas, info: i.dagang, kec: i.kecamatan, status: 'Lengkap' }));
-            appData.pestisida.forEach(i => allRows.push({ kat: 'Uji Pestisida', waktu: i.waktu, petugas: i.petugas, info: i.nama_komoditas, kec: i.kecamatan, status: i.status }));
-            appData.formalin.forEach(i => allRows.push({ kat: 'Uji Formalin', waktu: i.waktu, petugas: i.petugas, info: i.nama_psah, kec: i.kecamatan, status: i.status }));
-
-            // Urutkan berdasarkan waktu terbaru
-            allRows.sort((a,b) => new Date(b.waktu) - new Date(a.waktu));
-
-            let rekapHtml = '';
-            allRows.forEach(row => {
-                let badgeColor = (row.status === 'Aman' || row.status === 'Lengkap' || row.status === 'Memenuhi Syarat') ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
-                rekapHtml += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50/50">
-                        <td class="p-3 font-semibold text-xs text-slate-700">${row.kat}</td>
-                        <td class="p-3 text-xs text-slate-500">${row.waktu || '-'}</td>
-                        <td class="p-3 text-xs text-slate-600">${row.petugas || '-'}</td>
-                        <td class="p-3 text-xs text-slate-800 font-medium">${row.info || '-'}</td>
-                        <td class="p-3 text-xs text-slate-600">${row.kec || '-'}</td>
-                        <td class="p-3 text-xs"><span class="px-2.5 py-1 rounded-full font-semibold ${badgeColor}">${row.status || 'Aman'}</span></td>
-                    </tr>
-                `;
-            });
-
-            const rekapBody = document.getElementById('rekap-table-body');
-            if(rekapBody) rekapBody.innerHTML = rekapHtml || `<tr><td colspan="6" class="p-4 text-center text-xs text-slate-400">Belum ada data pengawasan.</td></tr>`;
-        }
-
-        // --- MODAL NOTIFIKASI ---
-        function showModal(title, message, type='emerald') {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            const iconEl = document.getElementById('modal-icon');
-            if(type === 'rose') {
-                iconEl.className = "w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
-                iconEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
-            } else {
-                iconEl.className = "w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 text-xl font-bold";
-                iconEl.innerHTML = `<i class="fa-solid fa-check"></i>`;
-            }
-            document.getElementById('custom-modal').classList.remove('hidden');
-        }
+        // Modal Custom Helper
         function closeModal() {
             document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        function handleGudangSubmit(e) {
+            e.preventDefault();
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+
+        function syncFromCloud() {
+            alert('Menyinkronkan data...');
+        }
+
+        // Inisialisasi Grafik Chart.js (Diagram Lingkaran & Diagram Batang dengan Persentase)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Data Sampel Persentase Masing-Masing Inputan (Aman/MS vs Tidak Aman/TMS)
+            const dataGudang = { aman: 75, tms: 25 };
+            const dataLabel = { aman: 60, tms: 40 };
+            const dataPestisida = { aman: 90, tms: 10 };
+            const dataFormalin = { aman: 85, tms: 15 };
+
+            // Render Pie Charts
+            createPieChart('pieGudang', dataGudang.aman, dataGudang.tms);
+            createPieChart('pieLabel', dataLabel.aman, dataLabel.tms);
+            createPieChart('piePestisida', dataPestisida.aman, dataPestisida.tms);
+            createPieChart('pieFormalin', dataFormalin.aman, dataFormalin.tms);
+
+            // Render Bar Chart Persentase Masing-Masing Inputan
+            const ctxBar = document.getElementById('barPercentageChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Gudang PSAT', 'Label PSAT', 'Uji Pestisida', 'Uji Formalin (PSAH)'],
+                    datasets: [
+                        {
+                            label: 'Memenuhi Syarat / Aman (%)',
+                            data: [dataGudang.aman, dataLabel.aman, dataPestisida.aman, dataFormalin.aman],
+                            backgroundColor: '#10b981',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Tidak Memenuhi Syarat (%)',
+                            data: [dataGudang.tms, dataLabel.tms, dataPestisida.tms, dataFormalin.tms],
+                            backgroundColor: '#f43f5e',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        function createPieChart(canvasId, aman, tms) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
+                    datasets: [{
+                        data: [aman, tms],
+                        backgroundColor: ['#10b981', '#f43f5e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
     </script>
 </body>
